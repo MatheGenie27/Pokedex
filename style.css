@@ -1,0 +1,27 @@
+/*Schriften */
+
+
+
+body{
+    margin:0;
+   }
+
+div{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+   
+#header{
+       width:100%;
+       height: fit-content;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+}
+
+.content{
+    width:100%;
+    max-width: 1440px;
+    display: flex;
+    justify-content: center;
+}

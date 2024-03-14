@@ -11,7 +11,7 @@ div{
     -moz-box-sizing: border-box;
 }
    
-#header{
+header{
        width:100%;
        height: fit-content;
        display: flex;
@@ -19,9 +19,35 @@ div{
        align-items: center;
 }
 
+main{
+    width:100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .content{
     width:100%;
     max-width: 1440px;
     display: flex;
     justify-content: center;
+}
+
+#headerContent{
+    height: 150px;
+}
+
+#mainContent{
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.overViewCard{
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
 }

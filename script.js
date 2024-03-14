@@ -1,5 +1,7 @@
 
 
+
+
 let pokeIndex;
 
 async function init(){
@@ -15,9 +17,50 @@ async function init(){
     }catch{
         console.log("pokeIndex konnte nicht geladen werden")
     }  
+
+    renderOverviewCards();
+
 }
+
+
+function renderOverviewCards(){
+    content = document.getElementById('mainContent');
+    content.innerHTML = '';
+
+    for (let index = 0; index < pokeIndex.results.length; index++) {
+        content.innerHTML += overviewCardHTML(index);
+        
+    }
+
+}
+
+
+
 
 
 function printCount(){
     console.log(pokeIndex.count)
+}
+
+
+function printResults(){
+    console.log(pokeIndex.results)
+}
+
+function printNames(){
+    for (let index = 0; index < pokeIndex.results.length; index++) {
+        console.log(pokeIndex.results[index].name)
+        
+    }
+}
+
+
+//HTML Templates
+
+function overviewCardHTML(index){
+    return `
+        	<div class="overViewCard">
+                Name: ${pokeIndex.results[index].name}
+            </div>
+    `;
 }

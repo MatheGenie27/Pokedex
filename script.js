@@ -176,11 +176,12 @@ function closeModal(){
 }
 
 function renderModal(index){
+    if(pokeResultOfSearch[0].results[index]){
     modal = document.getElementById('modalWrapper');
     modal.innerHTML = '';
     modal.innerHTML += modalConstructionHTML(index);
     renderModalCard(index);
-
+    }
 }
 
 function renderModalCard(index){

@@ -246,7 +246,7 @@ function modalConstructionHTML(index){
 }
 
 function overviewCardHTML(index) {
-  if (pokeResultOfSearch[0].results) {
+  if (pokeResultOfSearch[0].results[index]) {
     return `
         	<div class="overViewCard" id="${index}" onclick="openModal(${index})">
                     <div> Name:</div>
@@ -254,14 +254,10 @@ function overviewCardHTML(index) {
                     <div> Index: ${index}</div>
             </div>
     `;
-  } else {
-    return `<div>kein Pokemon gefunden<div>`;
+  } else {return '';}
 
-    //return `
-    //<div class="overViewCard">
-    //Name: ${pokeIndex.results[index].name}
-    //</div>`
-  }
+    
+  
 }
 
 //Daten

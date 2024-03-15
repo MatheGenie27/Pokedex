@@ -12,12 +12,11 @@ let totalPages;
 let upperBound;
 let lowerBound;
 
-
 //Funktionen
 
 async function init() {
   await getAllPokemons();
-  filterPokemon('');
+  filterPokemon("");
   renderAll();
 }
 
@@ -34,9 +33,7 @@ async function getAllPokemons() {
   }
 }
 
-
 async function filterPokemon(search) {
-  
   if (search) {
     search = search.toLowerCase();
   }
@@ -55,15 +52,15 @@ function checkFilter() {
 
   if (input.length > 2) {
     filterPokemon(input);
-  } else if(input==""){filterPokemon('')} 
+  } else if (input == "") {
+    filterPokemon("");
+  }
 }
 
-function getSearchInput(){
-    let search = document.getElementById("pokeSearch").value;
-    return search;
+function getSearchInput() {
+  let search = document.getElementById("pokeSearch").value;
+  return search;
 }
-
-
 
 async function updatePokeResultOfSearch(name) {
   pokeResultOfSearch = [
@@ -97,13 +94,20 @@ function calcTotalPages() {
 }
 
 function renderAll() {
+  calcRenderBoundaries();
+  getPokeDetails();
   renderOverviewCards();
   renderPageProgress();
 }
 
-function renderOverviewCards() {
-  calcRenderBoundaries();
+function getPokeDetails() {
+  //hier müsste er dann die Detail APIsfür die Pokemons
+  //zwischen Lower und Upper herunterladen und irgendwo speichern.
+  //Aber wo? Mehrere Arrays erzeugen lassen?
+  // "NumberOfPokeomsperPage" sagt ja wieviele Dateien ich laden muss.
+}
 
+function renderOverviewCards() {
   let content = document.getElementById("cardRenderArea");
   content.innerHTML = "";
 
@@ -120,7 +124,7 @@ function calcRenderBoundaries() {
 
 function getLowerBound() {
   if ((actualPage - 1) * numbersOfPokemonsPerPage > 0) {
-    return ((actualPage - 1) * numbersOfPokemonsPerPage)+1;
+    return (actualPage - 1) * numbersOfPokemonsPerPage + 1;
   } else {
     return 1;
   }
@@ -164,59 +168,54 @@ function pageBack() {
   }
 }
 
-function openModal(index){
-    modal = document.getElementById('modal');
-    modal.classList.remove('noDisplay');
-    renderModal(index);    
+function openModal(index) {
+  modal = document.getElementById("modal");
+  modal.classList.remove("noDisplay");
+  renderModal(index);
 }
 
-function closeModal(){
-    modal = document.getElementById('modal');
-    modal.classList.add('noDisplay');
+function closeModal() {
+  modal = document.getElementById("modal");
+  modal.classList.add("noDisplay");
 }
 
-function renderModal(index){
-    if(pokeResultOfSearch[0].results[index]){
-    modal = document.getElementById('modalWrapper');
-    modal.innerHTML = '';
+function renderModal(index) {
+  if (pokeResultOfSearch[0].results[index]) {
+    modal = document.getElementById("modalWrapper");
+    modal.innerHTML = "";
     modal.innerHTML += modalConstructionHTML(index);
     renderModalCard(index);
-    }
+  }
 }
 
-function renderModalCard(index){
-    modalCard = document.getElementById('modalMiddle');
-    modalCard.innerHTML = '';
-    modalCard.innerHTML += ModalCardHTML(index);
+function renderModalCard(index) {
+  modalCard = document.getElementById("modalMiddle");
+  modalCard.innerHTML = "";
+  modalCard.innerHTML += ModalCardHTML(index);
 }
 
-function doNotClose(event){
-    
-    event.stopPropagation();
+function doNotClose(event) {
+  event.stopPropagation();
 }
 
-function clickLeft(index){
-    if (index > 1){
-        if (index <= lowerBound)
-        pageBack();
-        renderModal(index-1);
-
-    }
+function clickLeft(index) {
+  if (index > 1) {
+    if (index <= lowerBound) pageBack();
+    renderModal(index - 1);
+  }
 }
 
-function clickRight(index){
-    if (index < pokeResultOfSearch[0].results.length){
-        if (index >= upperBound)
-        pageForward();
-        renderModal(index +1);
-    }
-
+function clickRight(index) {
+  if (index < pokeResultOfSearch[0].results.length) {
+    if (index >= upperBound) pageForward();
+    renderModal(index + 1);
+  }
 }
 
 //HTML Templates
 
-function ModalCardHTML(index){
-    return `
+function ModalCardHTML(index) {
+  return `
     <div id="modalCard${index}" class="modalCard" onclick="doNotClose(event)">
         <div class="upperModalCard">
             <div class="modalCardName">${pokeResultOfSearch[0].results[index].name}</div>
@@ -228,11 +227,10 @@ function ModalCardHTML(index){
     </div>
     
     `;
-
 }
 
-function modalConstructionHTML(index){
-    return `
+function modalConstructionHTML(index) {
+  return `
     <div id="modalLeft" class="modalButton" onclick="doNotClose(event), clickLeft(${index})">
 
     </div>
@@ -242,8 +240,7 @@ function modalConstructionHTML(index){
     <div id="modalRight" class="modalButton" onclick="doNotClose(event), clickRight(${index})">
 
     </div>
-    `
-
+    `;
 }
 
 function overviewCardHTML(index) {
@@ -255,10 +252,9 @@ function overviewCardHTML(index) {
                     <div> Index: ${index}</div>
             </div>
     `;
-  } else {return '';}
-
-    
-  
+  } else {
+    return "";
+  }
 }
 
 //Daten

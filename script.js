@@ -1,3 +1,5 @@
+//Daten Variablen
+
 let pokeIndex;
 
 let pokeResultOfSearch;
@@ -9,6 +11,9 @@ let totalPages;
 
 let upperBound;
 let lowerBound;
+
+
+//Funktionen
 
 async function init() {
   await getAllPokemons();
@@ -102,7 +107,7 @@ function renderOverviewCards() {
   let content = document.getElementById("cardRenderArea");
   content.innerHTML = "";
 
-  for (let index = lowerBound; index < upperBound; index++) {
+  for (let index = lowerBound+1; index <= upperBound; index++) {
     content.innerHTML += overviewCardHTML(index);
   }
 }
@@ -117,7 +122,7 @@ function getLowerBound() {
   if ((actualPage - 1) * numbersOfPokemonsPerPage > 0) {
     return (actualPage - 1) * numbersOfPokemonsPerPage;
   } else {
-    return 1;
+    return 0;
   }
 }
 
@@ -159,26 +164,89 @@ function pageBack() {
   }
 }
 
-function printCount() {
-  console.log(pokeIndex.count);
+function openModal(index){
+    modal = document.getElementById('modal');
+    modal.classList.remove('noDisplay');
+    renderModal(index);    
 }
 
-function printResults() {
-  console.log(pokeIndex.results);
+function closeModal(){
+    modal = document.getElementById('modal');
+    modal.classList.add('noDisplay');
 }
 
-function printNames() {
-  for (let index = 0; index < pokeIndex.results.length; index++) {
-    console.log(pokeIndex.results[index].name);
-  }
+function renderModal(index){
+    modal = document.getElementById('modalWrapper');
+    modal.innerHTML = '';
+    modal.innerHTML += modalConstructionHTML(index);
+    renderModalCard(index);
+
+}
+
+function renderModalCard(index){
+    modalCard = document.getElementById('modalMiddle');
+    modalCard.innerHTML = '';
+    modalCard.innerHTML += ModalCardHTML(index);
+}
+
+function doNotClose(event){
+    
+    event.stopPropagation();
+}
+
+function clickLeft(index){
+    if (index > 1){
+        if (index <= lowerBound)
+        pageBack();
+        renderModal(index-1);
+
+    }
+}
+
+function clickRight(index){
+    if (index < pokeResultOfSearch[0].results.length){
+        if (index >= upperBound)
+        pageForward();
+        renderModal(index +1);
+    }
+
 }
 
 //HTML Templates
 
+function ModalCardHTML(index){
+    return `
+    <div id="modalCard${index}" class="modalCard" onclick="doNotClose(event)">
+        <div class="upperModalCard">
+            <div class="modalCardName">${pokeResultOfSearch[0].results[index].name}</div>
+        </div>
+        <div class="lowerModalCard">
+        </div>
+    </div>
+    
+    `;
+
+}
+
+function modalConstructionHTML(index){
+    return `
+    <div id="modalLeft" class="modalButton" onclick="doNotClose(event), clickLeft(${index})">
+
+    </div>
+    <div id="modalMiddle">
+
+    </div>
+    <div id="modalRight" class="modalButton" onclick="doNotClose(event), clickRight(${index})">
+
+    </div>
+    `
+
+}
+
 function overviewCardHTML(index) {
   if (pokeResultOfSearch[0].results) {
     return `
-        	<div class="overViewCard">
+        	<div class="overViewCard" id="${index}" onclick="openModal(${index})">
                 Name: ${pokeResultOfSearch[0].results[index].name}
             </div>
     `;

@@ -12,12 +12,13 @@ let totalPages;
 let upperBound;
 let lowerBound;
 
+let resultDetails = [];
+
 //Funktionen
 
 async function init() {
   await getAllPokemons();
   filterPokemon("");
-  renderAll();
 }
 
 async function getAllPokemons() {
@@ -27,7 +28,7 @@ async function getAllPokemons() {
     let response = await fetch(url);
     let responseAsJson = await response.json();
     pokeIndex = responseAsJson;
-    console.log("PokeIndex:", pokeIndex, "geladen");
+    
   } catch {
     console.log("pokeIndex konnte nicht geladen werden");
   }
@@ -88,23 +89,67 @@ async function updatePokeResultOfSearch(name) {
   }
 }
 
+function resetSearch(){
+  document.getElementById('pokeSearch').value="";
+  filterPokemon('');
+}
+
 function calcTotalPages() {
   totalPages = 0;
   totalPages = Math.ceil((pokeResultOfSearch[0].results.length - 1) / 20);
 }
 
-function renderAll() {
+async function renderAll() {
   calcRenderBoundaries();
-  getPokeDetails();
+  await getPokeDetails();
   renderOverviewCards();
   renderPageProgress();
 }
 
-function getPokeDetails() {
-  //hier müsste er dann die Detail APIsfür die Pokemons
-  //zwischen Lower und Upper herunterladen und irgendwo speichern.
-  //Aber wo? Mehrere Arrays erzeugen lassen?
-  // "NumberOfPokeomsperPage" sagt ja wieviele Dateien ich laden muss.
+async function getPokeDetails() {
+  resultDetails.length = 0;
+  console.log("Länge nach Setzen auf Null: "+resultDetails.length);
+  resultDetails.push([0,null]);
+
+  for (let index = lowerBound; index <= upperBound; index++){
+    try{url = pokeResultOfSearch[0].results[index].url;}
+    catch{"url konnte nicht geladen werden an index " +index};
+    
+
+    
+
+// Teile die URL anhand des Schrägstrichs ("/") auf
+    let segments = url.split('/');
+
+// Die ID des Pokémon befindet sich im vorletzten Segment
+    let pokemonId = segments[segments.length - 2];
+
+
+
+   // let pokemonId = url.split('/').pop();
+    console.log("PokemonID von URL: "+pokemonId);
+    pokeImage = await fetch(`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemonId}.png`);
+    pokeType1 = null;
+    pokeType2 = null;
+    pokeHP= null;
+    pokeAttack = null; 
+    pokeDefense = null;
+    pokeSpAttack = null;
+    pokeSpDefense = null;
+    pokeSpeed = null;
+    pokeWeight = null;
+
+    detail = [pokeImage, pokeType1, pokeType2, pokeHP, pokeAttack, pokeDefense, pokeSpeed, pokeWeight]
+    //let detail = await fetch(url);
+    
+    
+    resultDetails.push([index, detail]);
+    console.log(index);
+   
+  }
+
+   console.log(resultDetails);
+   console.log("Länge: ",resultDetails.length);
 }
 
 function renderOverviewCards() {

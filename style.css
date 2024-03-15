@@ -77,6 +77,10 @@ main{
     flex-wrap: wrap;
 }
 
+.overViewCard:hover{
+    cursor: pointer;
+}
+
 
 #AreaPageButtons{
     display: flex;

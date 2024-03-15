@@ -107,7 +107,7 @@ function renderOverviewCards() {
   let content = document.getElementById("cardRenderArea");
   content.innerHTML = "";
 
-  for (let index = lowerBound+1; index <= upperBound; index++) {
+  for (let index = lowerBound; index <= upperBound; index++) {
     content.innerHTML += overviewCardHTML(index);
   }
 }
@@ -120,9 +120,9 @@ function calcRenderBoundaries() {
 
 function getLowerBound() {
   if ((actualPage - 1) * numbersOfPokemonsPerPage > 0) {
-    return (actualPage - 1) * numbersOfPokemonsPerPage;
+    return ((actualPage - 1) * numbersOfPokemonsPerPage)+1;
   } else {
-    return 0;
+    return 1;
   }
 }
 
@@ -219,6 +219,8 @@ function ModalCardHTML(index){
     <div id="modalCard${index}" class="modalCard" onclick="doNotClose(event)">
         <div class="upperModalCard">
             <div class="modalCardName">${pokeResultOfSearch[0].results[index].name}</div>
+            <div>${index}</div>
+            <div>lowerBound:${lowerBound} , upperBound:${upperBound}</div>
         </div>
         <div class="lowerModalCard">
         </div>
@@ -247,7 +249,9 @@ function overviewCardHTML(index) {
   if (pokeResultOfSearch[0].results) {
     return `
         	<div class="overViewCard" id="${index}" onclick="openModal(${index})">
-                Name: ${pokeResultOfSearch[0].results[index].name}
+                    <div> Name:</div>
+                    <div> ${pokeResultOfSearch[0].results[index].name}</div>
+                    <div> Index: ${index}</div>
             </div>
     `;
   } else {

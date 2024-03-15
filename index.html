@@ -13,14 +13,30 @@
 
     <header>
         <div id="headerContent" class="content">
-
+            <div id="searchField">
+            <input id="pokeSearch" type="text" placeholder="Suche..." onkeyup="checkFilter()">
+            <button onclick="filterPokemon('')">Suche</button>
+            </div>    
         </div>
     </header>
 
     <main>
         <div id="mainContent" class="content"> 
+             <div id="AreaPageButtons">
+                <div class="buttonPage" id="buttonPageBack" onclick="pageBack()">
+
+                </div>
+                <div id="pageProgress"></div>
+                <div class="buttonPage" id="buttonPageForward" onclick="pageForward()">
+
+                </div>
+            </div>
+            
+            <div id="cardRenderArea"></div>
+           
 
         </div>
+
 
     </main>
 

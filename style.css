@@ -70,8 +70,8 @@ main{
 }
 
 .overViewCard{
-    height: 140px;
-    width: 140px;
+    height: 150px;
+    width: 150px;
     border: 1px solid black;
     display: flex;
     flex-direction: column;
@@ -114,6 +114,14 @@ main{
     align-items: center;
     width:100%;
     gap:10px;
+}
+
+.overviewCardType{
+    padding: 1px 5px 1px 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    
 }
 
 #AreaPageButtons{
@@ -162,13 +170,13 @@ main{
     align-items: center;
     width:100%;
     height:100vh;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.7);
     
     
 }
 
 #modalLeft{
-    width: 100px;
+    width: 50px;
     height: 50px;
     background-color: red;
     display: flex;
@@ -178,7 +186,7 @@ main{
 }
 
 #modalRight{
-    width: 100px;
+    width: 50px;
     height: 50px;
     background-color: red;
     display: flex;
@@ -196,8 +204,8 @@ main{
 }
 
 .modalCard{
-    height: 400px;
-    width:200px;
+    height: 460px;
+    width:310px;
     background-color: white;
     box-shadow: 2px 2px rgba(0,0,0,0.3);
     display: flex;
@@ -205,5 +213,221 @@ main{
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    border-radius: 20px;
+    
+}
+
+.upperModalCard{
+    
+    height: fit-content;
+    height: 200px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    width:100%;
+    
+}
+
+.modalCardName{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.modalTypeRow{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.lowerModalCard{
+    height: 250px;
+    background-color: white;
+    min-width:100%;
+    padding: 30px;
+    border-radius: 10px;
+    padding-top:55px;
+}
+
+.modalImageRow{
+    width:100%;
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalImage{
+    max-height:220px;
+    width:100%;
+    object-fit:contain;
+    z-index: 10;
+
+
+}
+
+.modalStatsHeader{
+    font-weight: bold;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Hintergund CSS Klassen */
+
+.normal {
+    background-color: #A8A77A; /* Normal */
+}
+
+.fire {
+    background-color: #EE8130; /* Fire */
+}
+
+.water {
+    background-color: #6390F0; /* Water */
+}
+
+.grass {
+    background-color: #7AC74C; /* Grass */
+}
+
+.electric {
+    background-color: #F7D02C; /* Electric */
+}
+
+.fighting {
+    background-color: #C03028; /* Fighting */
+}
+
+.ground {
+    background-color: #E0C068; /* Ground */
+}
+
+.rock {
+    background-color: #B8A038; /* Rock */
+}
+
+.bug {
+    background-color: #A8B820; /* Bug */
+}
+
+.ghost {
+    background-color: #705898; /* Ghost */
+}
+
+.dragon {
+    background-color: #7038F8; /* Dragon */
+}
+
+.dark {
+    background-color: #705848; /* Dark */
+}
+
+.steel {
+    background-color: #B8B8D0; /* Steel */
+}
+
+.flying {
+    background-color: #A98FF3; /* Flying */
+}
+
+.poison {
+    background-color: #A33EA1; /* Poison */
+}
+
+.ice {
+    background-color: #96D9D6; /* Ice */
+}
+
+.psychic {
+    background-color: #F95587; /* Psychic */
+}
+
+.fairy {
+    background-color: #D685AD; /* Fairy */
+}
+
+
+.noBorder{
+    border: 5px solid white;
+}
+
+.normal-border {
+    border: 5px solid #A8A77A; /* Normal */
+}
+
+.fire-border {
+    border: 5px solid #EE8130; /* Fire */
+}
+
+.water-border {
+    border: 5px solid #6390F0; /* Water */
+}
+
+.grass-border {
+    border: 5px solid #7AC74C; /* Grass */
+}
+
+.electric-border {
+    border: 5px solid #F7D02C; /* Electric */
+}
+
+.fighting-border {
+    border: 5px solid #C03028; /* Fighting */
+}
+
+.ground-border {
+    border: 5px solid #E0C068; /* Ground */
+}
+
+.rock-border {
+    border: 5px solid #B8A038; /* Rock */
+}
+
+.bug-border {
+    border: 5px solid #A8B820; /* Bug */
+}
+
+.ghost-border {
+    border: 5px solid #705898; /* Ghost */
+}
+
+.dragon-border {
+    border: 5px solid #7038F8; /* Dragon */
+}
+
+.dark-border {
+    border: 5px solid #705848; /* Dark */
+}
+
+.steel-border {
+    border: 5px solid #B8B8D0; /* Steel */
+}
+
+.flying-border {
+    border: 5px solid #A98FF3; /* Flying */
+}
+
+.poison-border {
+    border: 5px solid #A33EA1; /* Poison */
+}
+
+.ice-border {
+    border: 5px solid #96D9D6; /* Ice */
+}
+
+.psychic-border {
+    border: 5px solid #F95587; /* Psychic */
+}
+
+.fairy-border {
+    border: 5px solid #D685AD; /* Fairy */
 }
 

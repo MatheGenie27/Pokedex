@@ -14,6 +14,9 @@ let lowerBound;
 
 let resultDetails = [];
 
+
+
+
 //Funktionen
 
 async function init() {
@@ -212,6 +215,9 @@ function renderOverviewCards() {
     let pokeID = getPokeIDFromResultDetailsIndex(index)
     content.innerHTML += overviewCardHTML(pokeID, index);
     renderOverviewCardsDetails(pokeID, index);
+
+
+
   }
 
 
@@ -221,55 +227,56 @@ function renderOverviewCards() {
 
 function renderOverviewCardsDetails(pokeID, index){
   let pokeDetails = getPokeDetailsFromStorage(pokeID);
-  //Typen feststellen
-  // sind es ein oder zwei Typen?
    
-  
-  
     let type = getAmountOfTypes(pokeDetails);
-    renderTypeContainer(pokeID,type);
-    addOverviewCardBackground();
+    let type1= pokeDetails[2];
+    let type2 = pokeDetails[3];
+    renderTypeContainer(pokeID,type1, type2, type);
+    addOverviewCardBackground(pokeID, type1);
+
+    
   
 }
 
 function getAmountOfTypes(pokeDetails){
-    if (pokeDetails[3]&&pokeDetails[4]){
+    if (pokeDetails[2]&&pokeDetails[3]){
       return 2;
     } else{ return 1;}
 
 }
 
 
-function renderTypeContainer(pokeID,type){
+function renderTypeContainer(pokeID,type1, type2, type){
     let content = document.getElementById(`overviewCardTypeContainer${pokeID}`);
     content.innerHTML = '';
     if (type==2){
-      content.innerHTML += TypeContainerHTML2(pokeID);
+      content.innerHTML += TypeContainerHTML2(type1, type2);
     } else {
-      content.innerHTML += TypeContainerHTML1(pokeID);
+      content.innerHTML += TypeContainerHTML1(type1);
     }
 }
 
 
-function TypeContainerHTML1(){
+function TypeContainerHTML1(type1){
   return `
-  <div>
-      Typ1
+  <div class="overviewCardType">
+      ${type1}
   </div>
   `;
 }
 
 
-function TypeContainerHTML2(){
+function TypeContainerHTML2(type1, type2){
   return `
-  <div> Typ1    </div>
-  <div> Typ  2 </div>
+  <div class="overviewCardType"> ${type1}    </div>
+  <div class="overviewCardType"> ${type2}</div>
   `;
 }
 
 
-function addOverviewCardBackground(){
-
+function addOverviewCardBackground(pokeID, type1){
+  element= document.getElementById(`overviewCard${pokeID}`);
+  element.classList.add(type1);
 }
 
 
@@ -340,11 +347,22 @@ function openModal(index) {
   modal = document.getElementById("modal");
   modal.classList.remove("noDisplay");
   renderModal(index);
+  scrollToTop();
+  document.body.style.overflow = "hidden";
 }
+
+function scrollToTop() {
+  window.scrollTo({
+      top: 0,
+       
+  });
+}
+
 
 function closeModal() {
   modal = document.getElementById("modal");
   modal.classList.add("noDisplay");
+  document.body.style.overflow = "auto";
 }
 
 function renderModal(index) {
@@ -353,10 +371,51 @@ function renderModal(index) {
     modal.innerHTML = "";
     modal.innerHTML += modalConstructionHTML(index);
     renderModalCard(index);
+    renderModalCardDetails(index);
   }
 }
 
+function renderModalCardDetails(index){
+  let pokeId = getPokeIDFromResultDetailsIndex(index);
+  let pokeDetails = getPokeDetailsFromStorage(pokeId);      
+  let type = getAmountOfTypes(pokeDetails);
+  let type1= pokeDetails[2];
+  let type2 = pokeDetails[3];
+  
+          renderModalTypeContainer(pokeId,type1, type2, type);
+          addModalCardBackground(pokeID, type1);
+          addModalCardBorder(pokeID,type2);
+       
+}
+
+function addModalCardBorder(pokeID, type2){
+    element=document.getElementById(`modalCard${pokeID}`);
+    if(type2==null){element.classList.add('noBorder')};
+    element.classList.add(`${type2}-border`);
+  
+}
+
+
+ function addModalCardBackground(pokeID, type1){
+            element= document.getElementById(`modalCard${pokeID}`);
+            element.classList.add(type1);
+          }
+
+
+function renderModalTypeContainer(pokeID,type1, type2, type){
+  let content = document.getElementById(`modalTypeRow${pokeID}`);
+  content.innerHTML = '';
+  if (type==2){
+    content.innerHTML += TypeContainerHTML2(type1, type2);
+  } else {
+    content.innerHTML += TypeContainerHTML1(type1);
+  }
+}
+
+
+
 function renderModalCard(index) {
+  let pokemonId = getPokeIDFromResultDetailsIndex(index); 
   modalCard = document.getElementById("modalMiddle");
   modalCard.innerHTML = "";
   modalCard.innerHTML += ModalCardHTML(index);
@@ -392,14 +451,20 @@ function getPokeDetailsFromStorage(pokeID){
 //HTML Templates
 
 function ModalCardHTML(index) {
+  let pokeId = getPokeIDFromResultDetailsIndex(index);
+  let pokeDetails = getPokeDetailsFromStorage(pokeId);
   return `
-    <div id="modalCard${index}" class="modalCard" onclick="doNotClose(event)">
-        <div class="upperModalCard">
+    <div id="modalCard${pokeId}" class="modalCard" onclick="doNotClose(event)">
+
+        <div class="upperModalCard" id="upperModalCard${pokeID}">
             <div class="modalCardName">${pokeResultOfSearch[0].results[index].name}</div>
-            <div>${index}</div>
-            <div>lowerBound:${lowerBound} , upperBound:${upperBound}</div>
+            <div class= "modalTypeRow" id="modalTypeRow${pokeID}">Typ Typ </div>
+            <div class="modalImageRow"><img class="modalImage"src=${pokeDetails[1]}> </div> 
         </div>
-        <div class="lowerModalCard">
+
+        <div class="lowerModalCard" id="lowerModalCard${pokeID}">
+            <div class="modalStatsHeader">Pokemon Stats</div>
+            <div class="modalStatsContent">StatsContnet </div>
         </div>
     </div>
     
@@ -426,7 +491,7 @@ function overviewCardHTML(pokeID, index) {
 
   if (pokeResultOfSearch[0].results[index]) {
     return `
-        	<div class="overViewCard"  onclick="openModal(${index})">
+        	<div class="overViewCard" id="overviewCard${pokeID}" onclick="openModal(${index})">
                                 
                 <div> ${pokeResultOfSearch[0].results[index].name}</div>
                       

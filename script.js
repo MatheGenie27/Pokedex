@@ -125,10 +125,10 @@ async function filterPokemon(search) {
   if (search) {
     search = search.toLowerCase();
   }
-  //console.log(search);
+  
 
   await updatePokeResultOfSearch(search);
-  //console.log(pokeResultOfSearch);
+  
   calcTotalPages();
   checkPageNumber();
   renderAll();
@@ -188,65 +188,12 @@ function calcTotalPages() {
 
 async function renderAll() {
   calcRenderBoundaries();
-  //await getPokeDetails(); //Funktion überdenken
+  
   renderOverviewCards();
   renderPageProgress();
 }
 
-//ÜBERARBEITUNG!!!!!!!!!!!!!!!!!!!!!!!!!!!
-async function getPokeDetails() {
-  //Start getPoke Details!!!!
-  resultDetails.length = 0;
-  console.log("Länge nach Setzen auf Null: " + resultDetails.length);
-  resultDetails.push([0, null]);
 
-  for (let index = lowerBound; index <= upperBound; index++) {
-    try {
-      url = pokeResultOfSearch[0].results[index].url;
-    } catch {
-      "url konnte nicht geladen werden an index " + index;
-    }
-
-    // Teile die URL anhand des Schrägstrichs ("/") auf
-    let segments = url.split("/");
-
-    // Die ID des Pokémon befindet sich im vorletzten Segment
-    let pokemonId = segments[segments.length - 2];
-
-    // let pokemonId = url.split('/').pop();
-    console.log("PokemonID von URL: " + pokemonId);
-    pokeImage = await fetch(
-      `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemonId}.png`
-    );
-    pokeType1 = null;
-    pokeType2 = null;
-    pokeHP = null;
-    pokeAttack = null;
-    pokeDefense = null;
-    pokeSpAttack = null;
-    pokeSpDefense = null;
-    pokeSpeed = null;
-    pokeWeight = null;
-
-    detail = [
-      pokeImage,
-      pokeType1,
-      pokeType2,
-      pokeHP,
-      pokeAttack,
-      pokeDefense,
-      pokeSpeed,
-      pokeWeight,
-    ];
-    //let detail = await fetch(url);
-
-    resultDetails.push([index, detail]);
-    console.log(index);
-  }
-
-  console.log(resultDetails);
-  console.log("Länge: ", resultDetails.length);
-} // Ende get PokeDetails
 
 function pokeIDFromURL(url){
   // Teile die URL anhand des Schrägstrichs ("/") auf
@@ -264,12 +211,75 @@ function renderOverviewCards() {
   for (let index = lowerBound; index <= upperBound; index++) {
     let pokeID = getPokeIDFromResultDetailsIndex(index)
     content.innerHTML += overviewCardHTML(pokeID, index);
+    renderOverviewCardsDetails(pokeID, index);
   }
+
+
 }
 
+
+
+function renderOverviewCardsDetails(pokeID, index){
+  let pokeDetails = getPokeDetailsFromStorage(pokeID);
+  //Typen feststellen
+  // sind es ein oder zwei Typen?
+   
+  
+  
+    let type = getAmountOfTypes(pokeDetails);
+    renderTypeContainer(pokeID,type);
+    addOverviewCardBackground();
+  
+}
+
+function getAmountOfTypes(pokeDetails){
+    if (pokeDetails[3]&&pokeDetails[4]){
+      return 2;
+    } else{ return 1;}
+
+}
+
+
+function renderTypeContainer(pokeID,type){
+    let content = document.getElementById(`overviewCardTypeContainer${pokeID}`);
+    content.innerHTML = '';
+    if (type==2){
+      content.innerHTML += TypeContainerHTML2(pokeID);
+    } else {
+      content.innerHTML += TypeContainerHTML1(pokeID);
+    }
+}
+
+
+function TypeContainerHTML1(){
+  return `
+  <div>
+      Typ1
+  </div>
+  `;
+}
+
+
+function TypeContainerHTML2(){
+  return `
+  <div> Typ1    </div>
+  <div> Typ  2 </div>
+  `;
+}
+
+
+function addOverviewCardBackground(){
+
+}
+
+
+
+
 function getPokeIDFromResultDetailsIndex(index){
-        url = pokeResultOfSearch[0].results[index].url;
-        pokeID = pokeIDFromURL(url);
+        try{url = pokeResultOfSearch[0].results[index].url;}
+        catch{}
+
+        if(url){pokeID = pokeIDFromURL(url);}
         return pokeID;
         
 }
@@ -416,12 +426,22 @@ function overviewCardHTML(pokeID, index) {
 
   if (pokeResultOfSearch[0].results[index]) {
     return `
-        	<div class="overViewCard" id="${index}" onclick="openModal(${index})">
-                    <div> Name:</div>
-                    <div> ${pokeResultOfSearch[0].results[index].name}</div>
-                    <div class="overviewCardImgRow"> <img class="overviewImage" src="${pokeDetails[1]}"></div>
-                    <div> Index: ${index}</div>
-            </div>
+        	<div class="overViewCard"  onclick="openModal(${index})">
+                                
+                <div> ${pokeResultOfSearch[0].results[index].name}</div>
+                      
+
+                  <div class="overviewCardImgRow"> 
+                    <div class="overviewCardTypeContainer"  id="overviewCardTypeContainer${pokeID}">
+                        <div class="overViewCardType">Typ1</div>
+                        <div class="overViewCardType">Typ2</div>
+                    </div>
+                    <img class="overviewImage" src="${pokeDetails[1]}">
+                  </div>
+
+                <div> ID: ${pokeID}</div>
+
+          </div>
     `;
   } else {
     return "";

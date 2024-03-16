@@ -71,14 +71,22 @@ main{
 
 .overViewCard{
     height: 140px;
-    width: 100px;
+    width: 140px;
     border: 1px solid black;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 15px;
 }
 
 .overViewCard:hover{
     cursor: pointer;
+}
+
+.overViewCard:hover .overviewImage{
+    transform: scale(1.7);
 }
 
 .overviewCardImgRow{
@@ -86,12 +94,26 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    gap:10px;
 }
 
 .overviewImage{
-    width:56px;
-    height:56px;
-    border: 1px solid red;
+    width: 76px;
+    height:76px;
+    transition: transform 0.3s ease;
+    
+}
+
+
+
+
+.overviewCardTypeContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    gap:10px;
 }
 
 #AreaPageButtons{

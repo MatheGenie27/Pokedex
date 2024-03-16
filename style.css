@@ -70,17 +70,29 @@ main{
 }
 
 .overViewCard{
-    height: 100px;
+    height: 140px;
     width: 100px;
     border: 1px solid black;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .overViewCard:hover{
     cursor: pointer;
 }
 
+.overviewCardImgRow{
+    width: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overviewImage{
+    width:56px;
+    height:56px;
+    border: 1px solid red;
+}
 
 #AreaPageButtons{
     display: flex;

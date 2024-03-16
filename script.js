@@ -17,18 +17,99 @@ let resultDetails = [];
 //Funktionen
 
 async function init() {
-  await getAllPokemons();
+  await getAllPokemonsOverview();
   filterPokemon("");
+  getCompletePokemonAPI();
 }
 
-async function getAllPokemons() {
+function getCompletePokemonAPI() {
+  console.log("Funktion: getCompletePokemonAPI");
+
+  console.log(pokeIndex.results.length);
+  for (let i = 0; i < pokeIndex.results.length; i++) {
+    try {
+      url = pokeIndex.results[i].url;
+    } catch {
+      "url konnte nicht geladen werden an PokeIndex " + i;
+    }
+
+    let segments = url.split("/");
+
+    let pokemonId = segments[segments.length - 2];
+    saveLocal(pokemonId);
+  }
+}
+
+async function saveLocal(id) {
+  idAsText = id.toString();
+  if (isLocal(id)) {
+  } else {
+    let details = await getDetailsFromAPI(id);
+    if (details) {
+      
+      let essentialDetails = extractEssentialInformation(details);
+
+      let essentialDetailsAsText = JSON.stringify(essentialDetails);
+      localStorage.setItem(`pokeID${id}`,essentialDetailsAsText);
+    }
+  }
+}
+
+function extractEssentialInformation(element) {
+  //Extrahiere Bild, Typ1,Typ2,HP,Attack,Defense,SP-Attack,SP-Defense,Speed,Weight
+  console.log("Extrahiere essenzielle Informationen");
+  let pokeName = element.species.name;
+  let pokeImage = element.sprites.front_default;
+  let pokeType1 = element.types[0].type.name;
+  let pokeType2;
+  let pokeHP = element.stats[0].base_stat;
+  let pokeAttack = element.stats[1].base_stat;
+  let pokeDefense = element.stats[2].base_stat;
+  let pokeSpAttack = element.stats[3].base_stat;
+  let pokeSpDefense = element.stats[4].base_stat;
+  let pokeSpeed = element.stats[5].base_stat;
+  let pokeWeight = element.types.weight;
+
+  if(element.types[1]){if(element.types[1].type.name){pokeType2 = element.types[1].type.name;}}else{pokeType2=null;}
+
+  info =[pokeName, pokeImage, pokeType1, pokeType2, pokeHP, pokeAttack, pokeDefense, pokeSpAttack, pokeSpDefense, pokeSpeed, pokeWeight]
+  return info;
+}
+
+async function getDetailsFromAPI(id) {
+  let url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+  let responseAsJSON;
+  try {
+    let response = await fetch(url);
+
+    if (response) {
+      responseAsJSON = await response.json(); 
+    }
+    if (responseAsJSON) {
+      return responseAsJSON;
+    }
+  } catch {
+    console.log("oopsi in getDetailsFromAPI()");
+  }
+}
+
+function isLocal(id) {
+  pokeDetailsAsText = localStorage.getItem(`pokeID${id}`);
+  if (pokeDetailsAsText) {
+    console.log("Im Speicher vorhanden")
+    return true;
+  } else {
+    return false;
+  }
+}
+
+async function getAllPokemonsOverview() {
   let url = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
 
   try {
     let response = await fetch(url);
     let responseAsJson = await response.json();
     pokeIndex = responseAsJson;
-    
   } catch {
     console.log("pokeIndex konnte nicht geladen werden");
   }
@@ -38,10 +119,10 @@ async function filterPokemon(search) {
   if (search) {
     search = search.toLowerCase();
   }
-  console.log(search);
+  //console.log(search);
 
   await updatePokeResultOfSearch(search);
-  console.log(pokeResultOfSearch);
+  //console.log(pokeResultOfSearch);
   calcTotalPages();
   checkPageNumber();
   renderAll();
@@ -83,15 +164,15 @@ async function updatePokeResultOfSearch(name) {
       try {
         pokeResultOfSearch[0].results.push(pokeIndex.results[i]);
       } catch {
-        console.log("pushen fehlgeschlagen");
+        console.log("Daten in Result pushen fehlgeschlagen");
       }
     }
   }
 }
 
-function resetSearch(){
-  document.getElementById('pokeSearch').value="";
-  filterPokemon('');
+function resetSearch() {
+  document.getElementById("pokeSearch").value = "";
+  filterPokemon("");
 }
 
 function calcTotalPages() {
@@ -101,55 +182,73 @@ function calcTotalPages() {
 
 async function renderAll() {
   calcRenderBoundaries();
-  await getPokeDetails();
+  //await getPokeDetails(); //Funktion überdenken
   renderOverviewCards();
   renderPageProgress();
 }
 
+//ÜBERARBEITUNG!!!!!!!!!!!!!!!!!!!!!!!!!!!
 async function getPokeDetails() {
+  //Start getPoke Details!!!!
   resultDetails.length = 0;
-  console.log("Länge nach Setzen auf Null: "+resultDetails.length);
-  resultDetails.push([0,null]);
+  console.log("Länge nach Setzen auf Null: " + resultDetails.length);
+  resultDetails.push([0, null]);
 
-  for (let index = lowerBound; index <= upperBound; index++){
-    try{url = pokeResultOfSearch[0].results[index].url;}
-    catch{"url konnte nicht geladen werden an index " +index};
-    
+  for (let index = lowerBound; index <= upperBound; index++) {
+    try {
+      url = pokeResultOfSearch[0].results[index].url;
+    } catch {
+      "url konnte nicht geladen werden an index " + index;
+    }
 
-    
+    // Teile die URL anhand des Schrägstrichs ("/") auf
+    let segments = url.split("/");
 
-// Teile die URL anhand des Schrägstrichs ("/") auf
-    let segments = url.split('/');
-
-// Die ID des Pokémon befindet sich im vorletzten Segment
+    // Die ID des Pokémon befindet sich im vorletzten Segment
     let pokemonId = segments[segments.length - 2];
 
-
-
-   // let pokemonId = url.split('/').pop();
-    console.log("PokemonID von URL: "+pokemonId);
-    pokeImage = await fetch(`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemonId}.png`);
+    // let pokemonId = url.split('/').pop();
+    console.log("PokemonID von URL: " + pokemonId);
+    pokeImage = await fetch(
+      `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemonId}.png`
+    );
     pokeType1 = null;
     pokeType2 = null;
-    pokeHP= null;
-    pokeAttack = null; 
+    pokeHP = null;
+    pokeAttack = null;
     pokeDefense = null;
     pokeSpAttack = null;
     pokeSpDefense = null;
     pokeSpeed = null;
     pokeWeight = null;
 
-    detail = [pokeImage, pokeType1, pokeType2, pokeHP, pokeAttack, pokeDefense, pokeSpeed, pokeWeight]
+    detail = [
+      pokeImage,
+      pokeType1,
+      pokeType2,
+      pokeHP,
+      pokeAttack,
+      pokeDefense,
+      pokeSpeed,
+      pokeWeight,
+    ];
     //let detail = await fetch(url);
-    
-    
+
     resultDetails.push([index, detail]);
     console.log(index);
-   
   }
 
-   console.log(resultDetails);
-   console.log("Länge: ",resultDetails.length);
+  console.log(resultDetails);
+  console.log("Länge: ", resultDetails.length);
+} // Ende get PokeDetails
+
+function pokeIDFromURL(url){
+  // Teile die URL anhand des Schrägstrichs ("/") auf
+  let segments = url.split("/");
+
+  // Die ID des Pokémon befindet sich im vorletzten Segment
+  let pokemonId = segments[segments.length - 2];
+  return pokemonId;
 }
 
 function renderOverviewCards() {
@@ -157,8 +256,16 @@ function renderOverviewCards() {
   content.innerHTML = "";
 
   for (let index = lowerBound; index <= upperBound; index++) {
-    content.innerHTML += overviewCardHTML(index);
+    let pokeID = getPokeIDFromResultDetailsIndex(index)
+    content.innerHTML += overviewCardHTML(pokeID, index);
   }
+}
+
+function getPokeIDFromResultDetailsIndex(index){
+        url = pokeResultOfSearch[0].results[index].url;
+        pokeID = pokeIDFromURL(url);
+        return pokeID;
+        
 }
 
 function calcRenderBoundaries() {
@@ -257,6 +364,15 @@ function clickRight(index) {
   }
 }
 
+function getPokeDetailsFromStorage(pokeID){
+  let pokeDetailsAsText = localStorage.getItem(`pokeID${pokeID}`);
+  let pokeDetails;
+  if (pokeDetailsAsText){
+    pokeDetails = JSON.parse(pokeDetailsAsText);
+    return pokeDetails;
+  } else {console.log("Error in getPokeDetailsFromStorage")}
+}
+
 //HTML Templates
 
 function ModalCardHTML(index) {
@@ -288,12 +404,16 @@ function modalConstructionHTML(index) {
     `;
 }
 
-function overviewCardHTML(index) {
+function overviewCardHTML(pokeID, index) {
+  let pokeDetails = getPokeDetailsFromStorage(pokeID);
+  
+
   if (pokeResultOfSearch[0].results[index]) {
     return `
         	<div class="overViewCard" id="${index}" onclick="openModal(${index})">
                     <div> Name:</div>
                     <div> ${pokeResultOfSearch[0].results[index].name}</div>
+                    <div class="overviewCardImgRow"> <img class="overviewImage" src="${pokeDetails[1]}"></div>
                     <div> Index: ${index}</div>
             </div>
     `;

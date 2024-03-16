@@ -17,12 +17,18 @@ let resultDetails = [];
 //Funktionen
 
 async function init() {
+  waitMessage();
   await getAllPokemonsOverview();
+  await getCompletePokemonAPI();
   filterPokemon("");
-  getCompletePokemonAPI();
+  ;
 }
 
-function getCompletePokemonAPI() {
+function waitMessage(){
+  document.getElementById('cardRenderArea').innerHTML = `<div>Pokemon Index wird geladen. Einen Moment bitte.</div>`
+}
+
+async function getCompletePokemonAPI() {
   console.log("Funktion: getCompletePokemonAPI");
 
   console.log(pokeIndex.results.length);
@@ -36,7 +42,7 @@ function getCompletePokemonAPI() {
     let segments = url.split("/");
 
     let pokemonId = segments[segments.length - 2];
-    saveLocal(pokemonId);
+    await saveLocal(pokemonId);
   }
 }
 

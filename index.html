@@ -7,16 +7,20 @@
     
     <link href="./style.css" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="./script.js"></script>
 </head>
 <body onload="init()">
 
     <header>
         <div id="headerContent" class="content">
+            <div id="headerHeadline">Pokedex</div>
             <div id="searchField">
             <input id="pokeSearch" type="text" placeholder="Suche..." onkeyup="checkFilter()">
-            <button onclick="resetSearch()">Reset</button>
+            <div id="pokeSearchResetButton" onclick="resetSearch()">Reset</div>
             </div>    
+            
         </div>
     </header>
 
@@ -24,11 +28,11 @@
         <div id="mainContent" class="content"> 
              <div id="AreaPageButtons">
                 <div class="buttonPage" id="buttonPageBack" onclick="pageBack()">
-
+                    <img class="buttonPageImg" src="./img/arrow-alt-square-left.png">
                 </div>
                 <div id="pageProgress"></div>
                 <div class="buttonPage" id="buttonPageForward" onclick="pageForward()">
-
+                    <img class="buttonPageImg" src="./img/arrow-alt-square-right.png">
                 </div>
             </div>
             

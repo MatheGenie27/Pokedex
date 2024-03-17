@@ -36,6 +36,7 @@ main{
     width:100%;
     max-width: 1440px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -43,10 +44,36 @@ main{
 #headerContent{
     
     height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 #searchField{
+    display: flex;
+}
 
+#pokeSearch{
+    border: none;
+}
+
+#pokeSearchResetButton{
+background-color: beige;
+padding: 5px;
+border-radius: 5px;    
+box-shadow: 1px 1px rgba(0,0,0,0.2);
+}
+
+#pokeSearchResetButton:hover{
+    cursor: pointer;
+    
+    
+}
+
+#pokeSearchResetButton:active{
+    padding: 5px;
+    
+    box-shadow: inset 1px 1px rgba(0,0,0,0.2);
 }
 
 #mainContent{
@@ -72,7 +99,7 @@ main{
 .overViewCard{
     height: 150px;
     width: 150px;
-    border: 1px solid black;
+    border: 1px solid rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -104,7 +131,13 @@ main{
     
 }
 
-
+.overViewCardNameRow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    max-width: 130px;
+}
 
 
 .overviewCardTypeContainer{
@@ -140,16 +173,28 @@ main{
     display: flex;
     justify-content: space-around;
     align-items: center;
+    
 }
 
 .buttonPage{
     height: 50px;
     width: 50px;
-    background-color: pink;
+    border-radius: 11px;
+    background-color: white;
+    
+}
+
+.buttonPageImg{
+    width: 100%;
 }
 
 .buttonPage:hover{
     cursor: pointer;
+}
+
+.buttonPage:active{
+    box-shadow: inset 1px 1px rgba(0,0,0,0.5);
+    padding: 1px;
 }
 
 #modal{
@@ -178,21 +223,25 @@ main{
 #modalLeft{
     width: 50px;
     height: 50px;
-    background-color: red;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 500;
+}
+
+#modalRight{
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
 
-#modalRight{
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+.modalPageImg{
+    width: 100%;
 }
 
 
@@ -249,7 +298,7 @@ main{
     height: 250px;
     background-color: white;
     min-width:100%;
-    padding: 30px;
+    padding: 0;
     border-radius: 10px;
     padding-top:55px;
 }
@@ -279,6 +328,11 @@ main{
     align-items: center;
 }
 
+
+.modalStatsContentChartCanvas{
+    max-width: 250px;
+    height: 200px;
+}
 
 /* Hintergund CSS Klassen */
 
@@ -431,3 +485,19 @@ main{
     border: 5px solid #D685AD; /* Fairy */
 }
 
+@media screen and (max-width: 450px) {
+
+#modalLeft{
+ position: absolute;
+ left: 0;
+ z-index: 500;
+}
+
+#modalRight{
+    position: absolute;
+    right:0;
+    z-index: 500;
+}
+
+
+}

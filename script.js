@@ -14,6 +14,27 @@ let lowerBound;
 
 let resultDetails = [];
 
+//ChartVariablen
+
+const TYPE = 'bar';
+const LABEL = '';
+const LABELS = ['HITPOINTS','ATTACK','DEFENSE','SP-ATTACK', 'SP-DEFENSE', 'SPEED', ];
+const BACKGROUNDCOLOR =[
+  "rgba(168, 167, 122, 0.2)", // Normal
+  "rgba(238, 129, 48, 0.2)",  // Fire
+  "rgba(99, 144, 240, 0.2)",  // Water
+  "rgba(122, 199, 76, 0.2)",  // Grass
+  "rgba(247, 208, 44, 0.2)",  // Electric
+  "rgba(192, 48, 40, 0.2)"    // Fighting
+];
+const BORDERCOLOR = [
+  "rgba(168, 167, 122, 1)", // Normal
+  "rgba(238, 129, 48, 1)",  // Fire
+  "rgba(99, 144, 240, 1)",  // Water
+  "rgba(122, 199, 76, 1)",  // Grass
+  "rgba(247, 208, 44, 1)",  // Electric
+  "rgba(192, 48, 40, 1)"    // Fighting
+];
 
 
 
@@ -64,6 +85,10 @@ async function saveLocal(id) {
   }
 }
 
+
+
+
+
 function extractEssentialInformation(element) {
   //Extrahiere Bild, Typ1,Typ2,HP,Attack,Defense,SP-Attack,SP-Defense,Speed,Weight
   console.log("Extrahiere essenzielle Informationen");
@@ -81,7 +106,9 @@ function extractEssentialInformation(element) {
 
   if(element.types[1]){if(element.types[1].type.name){pokeType2 = element.types[1].type.name;}}else{pokeType2=null;}
 
-  info =[pokeName, pokeImage, pokeType1, pokeType2, pokeHP, pokeAttack, pokeDefense, pokeSpAttack, pokeSpDefense, pokeSpeed, pokeWeight]
+  info =[pokeName, pokeImage, pokeType1, pokeType2,
+  //beginnt mit [4]
+  pokeHP, pokeAttack, pokeDefense, pokeSpAttack, pokeSpDefense, pokeSpeed, pokeWeight]
   return info;
 }
 
@@ -318,7 +345,7 @@ function renderPageProgress() {
   let content = document.getElementById("pageProgress");
 
   content.innerHTML = "";
-  content.innerHTML += `${actualPage}/${totalPages}`;
+  content.innerHTML += `${actualPage} / ${totalPages}`;
 }
 
 function checkPageNumber() {
@@ -385,7 +412,53 @@ function renderModalCardDetails(index){
           renderModalTypeContainer(pokeId,type1, type2, type);
           addModalCardBackground(pokeID, type1);
           addModalCardBorder(pokeID,type2);
+          renderModalCardStats(pokeDetails, pokeID);
        
+}
+
+function renderModalCardStats(pokeDetails, pokeID){
+  
+  data = [pokeDetails[4],
+  pokeDetails[5],
+  pokeDetails[6],
+  pokeDetails[7],
+  pokeDetails[8],
+  pokeDetails[9],
+  
+
+];
+  
+  
+  const ctx = document.getElementById(`modalStatsContentChart${pokeID}`);
+  Chart.defaults.font.size = 10;
+  new Chart(ctx, {
+    type: TYPE,
+    data: {
+      labels: LABELS,
+      datasets: [{
+        label: LABEL,
+        data: data,
+        borderWidth: 1,
+        backgroundColor: BACKGROUNDCOLOR,
+        borderColor: BORDERCOLOR
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      scales: {
+        y: {
+          beginAtZero: true,
+          
+          
+        },
+        x:{
+          max: 150
+        }
+      },
+      
+      
+    }
+  });
 }
 
 function addModalCardBorder(pokeID, type2){
@@ -453,6 +526,10 @@ function getPokeDetailsFromStorage(pokeID){
 function ModalCardHTML(index) {
   let pokeId = getPokeIDFromResultDetailsIndex(index);
   let pokeDetails = getPokeDetailsFromStorage(pokeId);
+  if(pokeDetails[1]==null){
+    pokeDetails[1]='./img/question.png';
+  }
+
   return `
     <div id="modalCard${pokeId}" class="modalCard" onclick="doNotClose(event)">
 
@@ -464,7 +541,8 @@ function ModalCardHTML(index) {
 
         <div class="lowerModalCard" id="lowerModalCard${pokeID}">
             <div class="modalStatsHeader">Pokemon Stats</div>
-            <div class="modalStatsContent">StatsContnet </div>
+            <div class="modalStatsContent" id="modalStatsContent${pokeID}">
+            <canvas class="modalStatsContentChartCanvas" id="modalStatsContentChart${pokeID}"></canvas></div>
         </div>
     </div>
     
@@ -474,26 +552,30 @@ function ModalCardHTML(index) {
 function modalConstructionHTML(index) {
   return `
     <div id="modalLeft" class="modalButton" onclick="doNotClose(event), clickLeft(${index})">
-
+        <img class="modalPageImg" src="./img/arrow-alt-circle-left.png">
     </div>
     <div id="modalMiddle">
 
     </div>
     <div id="modalRight" class="modalButton" onclick="doNotClose(event), clickRight(${index})">
-
+    <img class="modalPageImg" src="./img/arrow-alt-circle-right.png">
     </div>
     `;
 }
 
 function overviewCardHTML(pokeID, index) {
   let pokeDetails = getPokeDetailsFromStorage(pokeID);
+
+  if(pokeDetails[1]==null){
+    pokeDetails[1]='./img/question.png';
+  }
   
 
   if (pokeResultOfSearch[0].results[index]) {
     return `
         	<div class="overViewCard" id="overviewCard${pokeID}" onclick="openModal(${index})">
                                 
-                <div> ${pokeResultOfSearch[0].results[index].name}</div>
+                <div class="overViewCardNameRow"> ${pokeResultOfSearch[0].results[index].name}</div>
                       
 
                   <div class="overviewCardImgRow"> 

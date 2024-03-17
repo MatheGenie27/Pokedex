@@ -1,48 +1,3 @@
-//Daten Variablen
-
-let pokeIndex;
-
-let pokeResultOfSearch;
-
-let numbersOfPokemonsPerPage = 20;
-
-let actualPage = 1;
-let totalPages;
-
-let upperBound;
-let lowerBound;
-
-let resultDetails = [];
-
-//ChartVariablen
-
-const TYPE = "bar";
-const LABEL = "";
-const LABELS = [
-  "HITPOINTS",
-  "ATTACK",
-  "DEFENSE",
-  "SP-ATTACK",
-  "SP-DEFENSE",
-  "SPEED",
-];
-const BACKGROUNDCOLOR = [
-  "rgba(168, 167, 122, 0.2)", // Normal
-  "rgba(238, 129, 48, 0.2)", // Fire
-  "rgba(99, 144, 240, 0.2)", // Water
-  "rgba(122, 199, 76, 0.2)", // Grass
-  "rgba(247, 208, 44, 0.2)", // Electric
-  "rgba(192, 48, 40, 0.2)", // Fighting
-];
-const BORDERCOLOR = [
-  "rgba(168, 167, 122, 1)", // Normal
-  "rgba(238, 129, 48, 1)", // Fire
-  "rgba(99, 144, 240, 1)", // Water
-  "rgba(122, 199, 76, 1)", // Grass
-  "rgba(247, 208, 44, 1)", // Electric
-  "rgba(192, 48, 40, 1)", // Fighting
-];
-
 //Funktionen
 
 async function init() {
@@ -55,13 +10,10 @@ async function init() {
 function waitMessage() {
   document.getElementById(
     "cardRenderArea"
-  ).innerHTML = `<div>Pokemon Index wird geladen. Einen Moment bitte.</div>`;
+  ).innerHTML = `<div>Pokemon Index wird geladen. Einen Moment bitte.<br>Je nach Internetgeschwindigkeit und Auslastung der öffentlich API kann dies einige Minuten dauern. </div>`;
 }
 
 async function getCompletePokemonAPI() {
-  console.log("Funktion: getCompletePokemonAPI");
-
-  console.log(pokeIndex.results.length);
   for (let i = 0; i < pokeIndex.results.length; i++) {
     try {
       url = pokeIndex.results[i].url;
@@ -103,10 +55,27 @@ function extractEssentialInformation(element) {
   let pokeSpeed = element.stats[5].base_stat;
   let pokeWeight = element.types.weight;
 
-  if (element.types[1]) { if(element.types[1].type.name) {pokeType2 = element.types[1].type.name;}
-  } else {pokeType2 = null;}
+  if (element.types[1]) {
+    if (element.types[1].type.name) {
+      pokeType2 = element.types[1].type.name;
+    }
+  } else {
+    pokeType2 = null;
+  }
 
-  info = [pokeName,pokeImage,pokeType1,pokeType2,pokeHP, pokeAttack,pokeDefense, pokeSpAttack,pokeSpDefense,pokeSpeed, pokeWeight,];
+  info = [
+    pokeName,
+    pokeImage,
+    pokeType1,
+    pokeType2,
+    pokeHP,
+    pokeAttack,
+    pokeDefense,
+    pokeSpAttack,
+    pokeSpDefense,
+    pokeSpeed,
+    pokeWeight,
+  ];
   return info;
 }
 
@@ -130,7 +99,6 @@ async function getDetailsFromAPI(id) {
 function isLocal(id) {
   pokeDetailsAsText = localStorage.getItem(`pokeID${id}`);
   if (pokeDetailsAsText) {
-    console.log("Im Speicher vorhanden");
     return true;
   } else {
     return false;
@@ -193,7 +161,6 @@ async function updatePokeResultOfSearch(name) {
     let indexName = pokeIndex.results[i].name.toLowerCase();
 
     if (indexName.includes(name)) {
-      console.log("Daten in Result gepusht)");
       try {
         pokeResultOfSearch[0].results.push(pokeIndex.results[i]);
       } catch {
@@ -213,12 +180,7 @@ function calcTotalPages() {
   totalPages = Math.ceil((pokeResultOfSearch[0].results.length - 1) / 20);
 }
 
-async function renderAll() {
-  calcRenderBoundaries();
 
-  renderOverviewCards();
-  renderPageProgress();
-}
 
 function pokeIDFromURL(url) {
   // Teile die URL anhand des Schrägstrichs ("/") auf
@@ -229,16 +191,7 @@ function pokeIDFromURL(url) {
   return pokemonId;
 }
 
-function renderOverviewCards() {
-  let content = document.getElementById("cardRenderArea");
-  content.innerHTML = "";
 
-  for (let index = lowerBound; index <= upperBound; index++) {
-    let pokeID = getPokeIDFromResultDetailsIndex(index);
-    content.innerHTML += overviewCardHTML(pokeID, index);
-    renderOverviewCardsDetails(pokeID, index);
-  }
-}
 
 function renderOverviewCardsDetails(pokeID, index) {
   let pokeDetails = getPokeDetailsFromStorage(pokeID);
@@ -258,30 +211,7 @@ function getAmountOfTypes(pokeDetails) {
   }
 }
 
-function renderTypeContainer(pokeID, type1, type2, type) {
-  let content = document.getElementById(`overviewCardTypeContainer${pokeID}`);
-  content.innerHTML = "";
-  if (type == 2) {
-    content.innerHTML += TypeContainerHTML2(type1, type2);
-  } else {
-    content.innerHTML += TypeContainerHTML1(type1);
-  }
-}
 
-function TypeContainerHTML1(type1) {
-  return `
-  <div class="overviewCardType">
-      ${type1}
-  </div>
-  `;
-}
-
-function TypeContainerHTML2(type1, type2) {
-  return `
-  <div class="overviewCardType"> ${type1}    </div>
-  <div class="overviewCardType"> ${type2}</div>
-  `;
-}
 
 function addOverviewCardBackground(pokeID, type1) {
   element = document.getElementById(`overviewCard${pokeID}`);
@@ -322,12 +252,7 @@ function getUpperBound() {
   }
 }
 
-function renderPageProgress() {
-  let content = document.getElementById("pageProgress");
 
-  content.innerHTML = "";
-  content.innerHTML += `${actualPage} / ${totalPages}`;
-}
 
 function checkPageNumber() {
   if (totalPages == 0) {
@@ -371,68 +296,13 @@ function closeModal() {
   document.body.style.overflow = "auto";
 }
 
-function renderModal(index) {
-  if (pokeResultOfSearch[0].results[index]) {
-    modal = document.getElementById("modalWrapper");
-    modal.innerHTML = "";
-    modal.innerHTML += modalConstructionHTML(index);
-    renderModalCard(index);
-    renderModalCardDetails(index);
-  }
-}
 
-function renderModalCardDetails(index) {
-  let pokeId = getPokeIDFromResultDetailsIndex(index);
-  let pokeDetails = getPokeDetailsFromStorage(pokeId);
-  let type = getAmountOfTypes(pokeDetails);
-  let type1 = pokeDetails[2];
-  let type2 = pokeDetails[3];
 
-  renderModalTypeContainer(pokeId, type1, type2, type);
-  addModalCardBackground(pokeID, type1);
-  addModalCardBorder(pokeID, type2);
-  renderModalCardStats(pokeDetails, pokeID);
-}
 
-function renderModalCardStats(pokeDetails, pokeID) {
-  data = [
-    pokeDetails[4],
-    pokeDetails[5],
-    pokeDetails[6],
-    pokeDetails[7],
-    pokeDetails[8],
-    pokeDetails[9],
-  ];
 
-  const ctx = document.getElementById(`modalStatsContentChart${pokeID}`);
-  Chart.defaults.font.size = 10;
-  new Chart(ctx, {
-    type: TYPE,
-    data: {
-      labels: LABELS,
-      datasets: [
-        {
-          label: LABEL,
-          data: data,
-          borderWidth: 1,
-          backgroundColor: BACKGROUNDCOLOR,
-          borderColor: BORDERCOLOR,
-        },
-      ],
-    },
-    options: {
-      indexAxis: "y",
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-        x: {
-          max: 150,
-        },
-      },
-    },
-  });
-}
+
+
+  
 
 function addModalCardBorder(pokeID, type2) {
   element = document.getElementById(`modalCard${pokeID}`);
@@ -457,11 +327,17 @@ function renderModalTypeContainer(pokeID, type1, type2, type) {
   }
 }
 
-function renderModalCard(index) {
-  let pokemonId = getPokeIDFromResultDetailsIndex(index);
-  modalCard = document.getElementById("modalMiddle");
-  modalCard.innerHTML = "";
-  modalCard.innerHTML += ModalCardHTML(index);
+function getStatsData(pokeDetails){
+  let data = [
+    pokeDetails[4],
+    pokeDetails[5],
+    pokeDetails[6],
+    pokeDetails[7],
+    pokeDetails[8],
+    pokeDetails[9],
+  ];
+
+  return data;
 }
 
 function doNotClose(event) {
@@ -492,89 +368,3 @@ function getPokeDetailsFromStorage(pokeID) {
     console.log("Error in getPokeDetailsFromStorage");
   }
 }
-
-//HTML Templates
-
-function ModalCardHTML(index) {
-  let pokeId = getPokeIDFromResultDetailsIndex(index);
-  let pokeDetails = getPokeDetailsFromStorage(pokeId);
-  if (pokeDetails[1] == null) {
-    pokeDetails[1] = "./img/question.png";
-  }
-
-  return `
-    <div id="modalCard${pokeId}" class="modalCard" onclick="doNotClose(event)">
-
-        <div class="upperModalCard" id="upperModalCard${pokeID}">
-            <div class="modalCardName">${pokeResultOfSearch[0].results[index].name}</div>
-            <div class= "modalTypeRow" id="modalTypeRow${pokeID}">Typ Typ </div>
-            <div class="modalImageRow"><img class="modalImage"src=${pokeDetails[1]}> </div> 
-        </div>
-
-        <div class="lowerModalCard" id="lowerModalCard${pokeID}">
-            <div class="modalStatsHeader">Pokemon Stats</div>
-            <div class="modalStatsContent" id="modalStatsContent${pokeID}">
-            <canvas class="modalStatsContentChartCanvas" id="modalStatsContentChart${pokeID}"></canvas></div>
-        </div>
-    </div>
-    
-    `;
-}
-
-function modalConstructionHTML(index) {
-  return `
-    <div id="modalLeft" class="modalButton" onclick="doNotClose(event), clickLeft(${index})">
-        <img class="modalPageImg" src="./img/arrow-alt-circle-left.png">
-    </div>
-    <div id="modalMiddle">
-
-    </div>
-    <div id="modalRight" class="modalButton" onclick="doNotClose(event), clickRight(${index})">
-    <img class="modalPageImg" src="./img/arrow-alt-circle-right.png">
-    </div>
-    `;
-}
-
-function overviewCardHTML(pokeID, index) {
-  let pokeDetails = getPokeDetailsFromStorage(pokeID);
-
-  if (pokeDetails[1] == null) {
-    pokeDetails[1] = "./img/question.png";
-  }
-
-  if (pokeResultOfSearch[0].results[index]) {
-    return `
-        	<div class="overViewCard" id="overviewCard${pokeID}" onclick="openModal(${index})">
-                                
-                <div class="overViewCardNameRow"> ${pokeResultOfSearch[0].results[index].name}</div>
-                      
-
-                  <div class="overviewCardImgRow"> 
-                    <div class="overviewCardTypeContainer"  id="overviewCardTypeContainer${pokeID}">
-                        <div class="overViewCardType">Typ1</div>
-                        <div class="overViewCardType">Typ2</div>
-                    </div>
-                    <img class="overviewImage" src="${pokeDetails[1]}">
-                  </div>
-
-                <div> ID: ${pokeID}</div>
-
-          </div>
-    `;
-  } else {
-    return "";
-  }
-}
-
-//Daten
-
-pokeResultOfSearch = [
-  {
-    results: [
-      {
-        name: "",
-        url: "",
-      },
-    ],
-  },
-];

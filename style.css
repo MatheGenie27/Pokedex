@@ -240,10 +240,20 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    
 }
 
 .modalPageImg{
     width: 100%;
+    background-color: rgba(255,255,255,0.6);
+    border-radius: 100%;
+    padding:1px;
+}
+
+.modalPageImg:hover{
+    
+    background-color: rgba(255,255,255,0.9);
+    
 }
 
 

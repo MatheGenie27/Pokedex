@@ -3,16 +3,26 @@ async function renderAll() {
 
   renderOverviewCards();
   renderPageProgress();
+  hidePageButtons();
 }
 
-function renderOverviewCards() {
+async function renderOverviewCards() {
   let content = document.getElementById("cardRenderArea");
   content.innerHTML = "";
 
   for (let index = lowerBound; index <= upperBound; index++) {
     let pokeID = getPokeIDFromResultDetailsIndex(index);
-    content.innerHTML += overviewCardHTML(pokeID, index);
-    renderOverviewCardsDetails(pokeID, index);
+
+    if (isLocal(pokeID)) {
+      content.innerHTML += overviewCardHTML(pokeID, index);
+      renderOverviewCardsDetails(pokeID, index);
+    } else {
+      //PokeDetails liegen noch nicht lokal vor
+
+      await saveLocal(pokeID);
+      content.innerHTML += overviewCardHTML(pokeID, index);
+      renderOverviewCardsDetails(pokeID, index);
+    }
   }
 }
 
@@ -33,13 +43,24 @@ function renderPageProgress() {
   content.innerHTML += `${actualPage} / ${totalPages}`;
 }
 
-function renderModal(index) {
+async function renderModal(index) {
   if (pokeResultOfSearch[0].results[index]) {
     modal = document.getElementById("modalWrapper");
     modal.innerHTML = "";
     modal.innerHTML += modalConstructionHTML(index);
-    renderModalCard(index);
-    renderModalCardDetails(index);
+    let pokeID = getPokeIDFromResultDetailsIndex(index);
+    hideModalButton(index);
+    if (isLocal(pokeID)) {
+      renderModalCard(index);
+      renderModalCardDetails(index);
+
+    } else {
+      //PokeDetails liegen noch nicht lokal vor
+
+      await saveLocal(pokeID);
+      renderModalCard(index);
+      renderModalCardDetails(index);
+    }
   }
 }
 

@@ -3,7 +3,7 @@
 async function init() {
   waitMessage();
   await getAllPokemonsOverview();
-  await getCompletePokemonAPI();
+  getCompletePokemonAPI();
   filterPokemon("");
 }
 
@@ -61,6 +61,10 @@ function extractEssentialInformation(element) {
     }
   } else {
     pokeType2 = null;
+  }
+
+  if (pokeImage == null){
+    pokeImage = "./img/question.png";
   }
 
   info = [
@@ -346,5 +350,61 @@ function getPokeDetailsFromStorage(pokeID) {
     return pokeDetails;
   } else {
     console.log("Error in getPokeDetailsFromStorage");
+  }
+}
+
+function hideModalButton(index) {
+  if (index == 1) {
+    document.getElementById("modalLeft").classList.add("noDisplay");
+    document.getElementById("modalLeftImg").classList.add("noDisplay");
+  } else {
+    document.getElementById("modalLeft").classList.remove("noDisplay");
+    document.getElementById("modalLeftImg").classList.remove("noDisplay");
+  }
+
+  if (index == pokeResultOfSearch[0].results.length) {
+    document.getElementById("modalRight").classList.add("noDisplay");
+    document.getElementById("modalRightImg").classList.add("noDisplay");
+  } else {
+    document.getElementById("modalRight").classList.remove("noDisplay");
+    document.getElementById("modalRightImg").classList.remove("noDisplay");
+  }
+}
+
+function hidePageButtons() {
+  hidePageBackButtons();
+
+  hidePageForwardButtons();
+}
+
+function hidePageBackButtons() {
+  if (actualPage == 1) {
+    document.getElementById("buttonPageBackImage").classList.add("noDisplay");
+    document.getElementById("buttonPageBackImage2").classList.add("noDisplay");
+  } else {
+    document
+      .getElementById("buttonPageBackImage")
+      .classList.remove("noDisplay");
+    document
+      .getElementById("buttonPageBackImage2")
+      .classList.remove("noDisplay");
+  }
+}
+
+function hidePageForwardButtons() {
+  if (actualPage == totalPages) {
+    document
+      .getElementById("buttonPageForwardImage")
+      .classList.add("noDisplay");
+    document
+      .getElementById("buttonPageForwardImage2")
+      .classList.add("noDisplay");
+  } else {
+    document
+      .getElementById("buttonPageForwardImage")
+      .classList.remove("noDisplay");
+    document
+      .getElementById("buttonPageForwardImage2")
+      .classList.remove("noDisplay");
   }
 }

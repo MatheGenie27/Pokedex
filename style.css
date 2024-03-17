@@ -1,577 +1,547 @@
 /*Schriften */
 /* vt323-regular - latin */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'VT323';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/vt323-v17-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
-  
-
-
-
-.noDisplay{
-    display: none;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "VT323";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./fonts/vt323-v17-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-body{
-    margin:0;
-    font-family: 'VT323';
-    font-style: normal;
-    font-weight: 400;
-    height: 80vh;
-   }
+.noDisplay {
+  display: none;
+}
+
+body {
+  margin: 0;
+  font-family: "VT323";
+  font-style: normal;
+  font-weight: 400;
+  height: 80vh;
+}
 
 input[type="text"] {
-    font-family: 'VT323';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
+  font-family: "VT323";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
 }
 
-
-div{
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-   
-header{
-       width:100%;
-       height: fit-content;
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       box-shadow: 0px 2px rgba(0,0,0,0.2);
+div {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
-main{
-    width:100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-
+header {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 2px rgba(0, 0, 0, 0.2);
 }
 
-
-.content{
-    width:100%;
-    max-width: 1440px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-#headerContent{
-    
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 20px;
+.content {
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#searchField{
-    display: flex;
-    padding-bottom: 10px;
-    gap:10px;
+#headerContent {
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-#pokeSearch{
-    border: none;
+#searchField {
+  display: flex;
+  padding-bottom: 10px;
+  gap: 10px;
 }
 
-#pokeSearchResetButton{
-background-color: beige;
-padding: 5px;
-border-radius: 5px;    
-box-shadow: 1px 1px rgba(0,0,0,0.2);
+#pokeSearch {
+  border: none;
 }
 
-#pokeSearchResetButton:hover{
-    cursor: pointer;
-    
+#pokeSearchResetButton {
+  background-color: beige;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-#pokeSearchResetButton:active{
-    padding: 5px;
-    
-    box-shadow: inset 1px 1px rgba(0,0,0,0.2);
+#pokeSearchResetButton:hover {
+  cursor: pointer;
 }
 
-#mainContent{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top:10px;
-    min-height: 100%;
-    justify-content: space-betwen;
-    align-items: center;
+#pokeSearchResetButton:active {
+  padding: 5px;
+
+  box-shadow: inset 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-
-
-#cardRenderArea{
-    display: flex;
-    flex-wrap: wrap;
-    gap:10px;
-    padding-left:15px;
-    padding-right: 15px;
-    height:100%;
-    
-    justify-content: center;
-    align-items: flex-start;
+#mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  min-height: 100%;
+  justify-content: space-betwen;
+  align-items: center;
 }
 
-#whitespace{
-    height:100%;
-    flex-grow: 5;
+#cardRenderArea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 100%;
+
+  justify-content: center;
+  align-items: flex-start;
 }
 
-.overViewCard{
-    height: 150px;
-    width: 150px;
-    border: 1px solid rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border-radius: 15px;
+#whitespace {
+  height: 100%;
+  flex-grow: 5;
 }
 
-.overViewCard:hover{
-    cursor: pointer;
+.overViewCard {
+  height: 150px;
+  width: 150px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 15px;
 }
 
-.overViewCard:hover .overviewImage{
-    transform: scale(1.7);
+.overViewCard:hover {
+  cursor: pointer;
 }
 
-.overviewCardImgRow{
-    width: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:10px;
+.overViewCard:hover .overviewImage {
+  transform: scale(1.7);
 }
 
-.overviewImage{
-    width: 76px;
-    height:76px;
-    transition: transform 0.3s ease;
-    
+.overviewCardImgRow {
+  width: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
-.overViewCardNameRow{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    max-width: 130px;
+.overviewImage {
+  width: 76px;
+  height: 76px;
+  transition: transform 0.3s ease;
 }
 
-
-.overviewCardTypeContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width:100%;
-    gap:10px;
+.overViewCardNameRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  max-width: 130px;
 }
 
-.overviewCardType{
-    padding: 1px 5px 1px 5px;
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: white;
-    
+.overviewCardTypeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
 }
 
-.modalTypeRow .overviewCardType{
-    z-index: 800;
+.overviewCardType {
+  padding: 1px 5px 1px 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: white;
 }
 
-#AreaPageButtons{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 50%;
-    gap:15px;
-    flex-grow: 0;
+.modalTypeRow .overviewCardType {
+  z-index: 800;
 }
 
-#AreaPageButtonsBottom{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 50%;
-    gap:15px;
-    flex-grow: 0;
+#AreaPageButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  gap: 15px;
+  flex-grow: 0;
 }
 
-
-#pageButtons{
-    height: 150px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    
+#AreaPageButtonsBottom {
+  display: none;
+  
 }
 
-.buttonPage{
-    height: 50px;
-    width: 50px;
-    border-radius: 11px;
-    background-color: white;
-    
+#pageButtons {
+  height: 150px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.buttonPageImg{
-    width: 100%;
+.buttonPage {
+  height: 50px;
+  width: 50px;
+  border-radius: 11px;
+  background-color: white;
 }
 
-.buttonPage:hover{
-    cursor: pointer;
+.buttonPageImg {
+  width: 100%;
 }
 
-.buttonPage:active{
-    box-shadow: inset 1px 1px rgba(0,0,0,0.5);
-    padding: 1px;
+.buttonPageImg:hover {
+  cursor: pointer;
 }
 
-#modal{
-    position: absolute;
-    top:0;
-    right:0;
-    left:0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    
-
+.buttonPageImg:active {
+  box-shadow: inset 1px 1px rgba(0, 0, 0, 0.5);
+  padding: 1px;
 }
 
-#modalWrapperWrap{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width:100%;
-    height:100vh;
-    background-color: rgba(0,0,0,0.7);
+#modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
 }
 
-#modalWrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width:100%;
-    max-width:600px;
-    
-    
-    
+#modalWrapperWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
-#modalLeft{
-    width: 50px;
-    height: 50px;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 500;
+#modalWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
 }
 
-#modalRight{
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    
+#modalLeft {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 500;
 }
 
-.modalPageImg{
-    width: 100%;
-    background-color: rgba(255,255,255,0.6);
-    border-radius: 100%;
-    padding:1px;
+#modalRight {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
-.modalPageImg:hover{
-    
-    background-color: rgba(255,255,255,0.9);
-    
+.modalPageImg {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 100%;
+  padding: 1px;
 }
 
-
-#modalMiddle{
-    display: flex;
-    flex-grow: 5;
-    justify-content: center;
-    align-items: center;
+.modalPageImg:hover {
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
-.modalCard{
-    height: 460px;
-    width:310px;
-    background-color: white;
-    box-shadow: 2px 2px rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    border-radius: 20px;
-    
+#modalMiddle {
+  display: flex;
+  flex-grow: 5;
+  justify-content: center;
+  align-items: center;
 }
 
-.upperModalCard{
-    
-    height: fit-content;
-    height: 200px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap:5px;
-    width:100%;
-    
+.modalCard {
+  height: 460px;
+  width: 310px;
+  background-color: white;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border-radius: 20px;
 }
 
-.modalCardName{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: x-large;
-    font-weight: bold;
+.upperModalCard {
+  height: fit-content;
+  height: 200px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
 }
 
-.modalTypeRow{
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
+.modalCardName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
+  font-weight: bold;
 }
 
-.lowerModalCard{
-    height: 250px;
-    background-color: white;
-    min-width:100%;
-    padding: 0;
-    border-radius: 10px;
-    padding-top:55px;
+.modalTypeRow {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
-.modalImageRow{
-    width:100%;
-    height:100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.lowerModalCard {
+  height: 250px;
+  background-color: white;
+  min-width: 100%;
+  padding: 0;
+  border-radius: 10px;
+  padding-top: 55px;
 }
 
-.modalImage{
-    max-height:220px;
-    width:100%;
-    object-fit:contain;
-    z-index: 10;
-
-
+.modalImageRow {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.modalStatsHeader{
-    font-weight: bold;
-    font-size: large;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.modalImage {
+  max-height: 220px;
+  width: 100%;
+  object-fit: contain;
+  z-index: 10;
 }
 
-
-.modalStatsContentChartCanvas{
-    max-width: 250px;
-    height: 200px;
+.modalStatsHeader {
+  font-weight: bold;
+  font-size: large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.modalStatsContentChartCanvas {
+  max-width: 250px;
+  height: 200px;
+}
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* Hintergund CSS Klassen */
 
 .normal {
-    background-color: #A8A77A; /* Normal */
+  background-color: #a8a77a; /* Normal */
 }
 
 .fire {
-    background-color: #EE8130; /* Fire */
+  background-color: #ee8130; /* Fire */
 }
 
 .water {
-    background-color: #6390F0; /* Water */
+  background-color: #6390f0; /* Water */
 }
 
 .grass {
-    background-color: #7AC74C; /* Grass */
+  background-color: #7ac74c; /* Grass */
 }
 
 .electric {
-    background-color: #F7D02C; /* Electric */
+  background-color: #f7d02c; /* Electric */
 }
 
 .fighting {
-    background-color: #C03028; /* Fighting */
+  background-color: #c03028; /* Fighting */
 }
 
 .ground {
-    background-color: #E0C068; /* Ground */
+  background-color: #e0c068; /* Ground */
 }
 
 .rock {
-    background-color: #B8A038; /* Rock */
+  background-color: #b8a038; /* Rock */
 }
 
 .bug {
-    background-color: #A8B820; /* Bug */
+  background-color: #a8b820; /* Bug */
 }
 
 .ghost {
-    background-color: #705898; /* Ghost */
+  background-color: #705898; /* Ghost */
 }
 
 .dragon {
-    background-color: #7038F8; /* Dragon */
+  background-color: #7038f8; /* Dragon */
 }
 
 .dark {
-    background-color: #705848; /* Dark */
+  background-color: #705848; /* Dark */
 }
 
 .steel {
-    background-color: #B8B8D0; /* Steel */
+  background-color: #b8b8d0; /* Steel */
 }
 
 .flying {
-    background-color: #A98FF3; /* Flying */
+  background-color: #a98ff3; /* Flying */
 }
 
 .poison {
-    background-color: #A33EA1; /* Poison */
+  background-color: #a33ea1; /* Poison */
 }
 
 .ice {
-    background-color: #96D9D6; /* Ice */
+  background-color: #96d9d6; /* Ice */
 }
 
 .psychic {
-    background-color: #F95587; /* Psychic */
+  background-color: #f95587; /* Psychic */
 }
 
 .fairy {
-    background-color: #D685AD; /* Fairy */
+  background-color: #d685ad; /* Fairy */
 }
 
-
-.noBorder{
-    border: 5px solid white;
+.noBorder {
+  border: 5px solid white;
 }
 
 .normal-border {
-    border: 5px solid #A8A77A; /* Normal */
+  border: 5px solid #a8a77a; /* Normal */
 }
 
 .fire-border {
-    border: 5px solid #EE8130; /* Fire */
+  border: 5px solid #ee8130; /* Fire */
 }
 
 .water-border {
-    border: 5px solid #6390F0; /* Water */
+  border: 5px solid #6390f0; /* Water */
 }
 
 .grass-border {
-    border: 5px solid #7AC74C; /* Grass */
+  border: 5px solid #7ac74c; /* Grass */
 }
 
 .electric-border {
-    border: 5px solid #F7D02C; /* Electric */
+  border: 5px solid #f7d02c; /* Electric */
 }
 
 .fighting-border {
-    border: 5px solid #C03028; /* Fighting */
+  border: 5px solid #c03028; /* Fighting */
 }
 
 .ground-border {
-    border: 5px solid #E0C068; /* Ground */
+  border: 5px solid #e0c068; /* Ground */
 }
 
 .rock-border {
-    border: 5px solid #B8A038; /* Rock */
+  border: 5px solid #b8a038; /* Rock */
 }
 
 .bug-border {
-    border: 5px solid #A8B820; /* Bug */
+  border: 5px solid #a8b820; /* Bug */
 }
 
 .ghost-border {
-    border: 5px solid #705898; /* Ghost */
+  border: 5px solid #705898; /* Ghost */
 }
 
 .dragon-border {
-    border: 5px solid #7038F8; /* Dragon */
+  border: 5px solid #7038f8; /* Dragon */
 }
 
 .dark-border {
-    border: 5px solid #705848; /* Dark */
+  border: 5px solid #705848; /* Dark */
 }
 
 .steel-border {
-    border: 5px solid #B8B8D0; /* Steel */
+  border: 5px solid #b8b8d0; /* Steel */
 }
 
 .flying-border {
-    border: 5px solid #A98FF3; /* Flying */
+  border: 5px solid #a98ff3; /* Flying */
 }
 
 .poison-border {
-    border: 5px solid #A33EA1; /* Poison */
+  border: 5px solid #a33ea1; /* Poison */
 }
 
 .ice-border {
-    border: 5px solid #96D9D6; /* Ice */
+  border: 5px solid #96d9d6; /* Ice */
 }
 
 .psychic-border {
-    border: 5px solid #F95587; /* Psychic */
+  border: 5px solid #f95587; /* Psychic */
 }
 
 .fairy-border {
-    border: 5px solid #D685AD; /* Fairy */
+  border: 5px solid #d685ad; /* Fairy */
 }
 
 @media screen and (max-width: 450px) {
+  #AreaPageButtonsBottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    gap: 15px;
+    flex-grow: 0;
+  }
 
-#modalLeft{
- position: absolute;
- left: 0;
- z-index: 500;
-}
-
-#modalRight{
+  #modalLeft {
     position: absolute;
-    right:0;
+    left: 0;
     z-index: 500;
-}
+  }
 
-#headImage{
+  #modalRight {
+    position: absolute;
+    right: 0;
+    z-index: 500;
+  }
+
+  #headImage {
     width: 250px;
-}
-
+  }
 }

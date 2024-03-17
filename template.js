@@ -29,13 +29,13 @@ function ModalCardHTML(index) {
 function modalConstructionHTML(index) {
   return `
       <div id="modalLeft" class="modalButton" onclick="doNotClose(event), clickLeft(${index})">
-          <img class="modalPageImg" src="./img/arrow-alt-circle-left.png">
+          <img class="modalPageImg" id="modalLeftImg" src="./img/arrow-alt-circle-left.png">
       </div>
       <div id="modalMiddle">
   
       </div>
       <div id="modalRight" class="modalButton" onclick="doNotClose(event), clickRight(${index})">
-      <img class="modalPageImg" src="./img/arrow-alt-circle-right.png">
+      <img class="modalPageImg" id="modalRightImg"src="./img/arrow-alt-circle-right.png">
       </div>
       `;
 }
@@ -43,15 +43,10 @@ function modalConstructionHTML(index) {
 function overviewCardHTML(pokeID, index) {
   let pokeDetails = getPokeDetailsFromStorage(pokeID);
 
-  if (pokeDetails[1] == null) {
-    pokeDetails[1] = "./img/question.png";
-  }
-
-  if (pokeResultOfSearch[0].results[index]) {
-    return `
+  return `
               <div class="overViewCard" id="overviewCard${pokeID}" onclick="openModal(${index})">
                                   
-                  <div class="overViewCardNameRow"> ${pokeResultOfSearch[0].results[index].name}</div>
+                  <div class="overViewCardNameRow"> ${pokeDetails[0]}</div>
                         
   
                     <div class="overviewCardImgRow"> 
@@ -65,10 +60,7 @@ function overviewCardHTML(pokeID, index) {
                   <div> ID: ${pokeID}</div>
   
             </div>
-      `;
-  } else {
-    return "";
-  }
+   `;
 }
 
 function TypeContainerHTML1(type1) {

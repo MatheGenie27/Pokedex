@@ -20,6 +20,7 @@ body{
     font-family: 'VT323';
     font-style: normal;
     font-weight: 400;
+    height: 80vh;
    }
 
 input[type="text"] {
@@ -46,7 +47,7 @@ header{
 
 main{
     width:100%;
-    min-height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -110,6 +111,8 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
     align-items: center;
 }
 
+
+
 #cardRenderArea{
     display: flex;
     flex-wrap: wrap;
@@ -117,8 +120,14 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
     padding-left:15px;
     padding-right: 15px;
     height:100%;
-    flex-grow: 5;
+    
     justify-content: center;
+    align-items: flex-start;
+}
+
+#whitespace{
+    height:100%;
+    flex-grow: 5;
 }
 
 .overViewCard{
@@ -183,6 +192,15 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
 }
 
 #AreaPageButtons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    gap:15px;
+    flex-grow: 0;
+}
+
+#AreaPageButtonsBottom{
     display: flex;
     justify-content: space-between;
     align-items: center;

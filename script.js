@@ -16,27 +16,32 @@ let resultDetails = [];
 
 //ChartVariablen
 
-const TYPE = 'bar';
-const LABEL = '';
-const LABELS = ['HITPOINTS','ATTACK','DEFENSE','SP-ATTACK', 'SP-DEFENSE', 'SPEED', ];
-const BACKGROUNDCOLOR =[
+const TYPE = "bar";
+const LABEL = "";
+const LABELS = [
+  "HITPOINTS",
+  "ATTACK",
+  "DEFENSE",
+  "SP-ATTACK",
+  "SP-DEFENSE",
+  "SPEED",
+];
+const BACKGROUNDCOLOR = [
   "rgba(168, 167, 122, 0.2)", // Normal
-  "rgba(238, 129, 48, 0.2)",  // Fire
-  "rgba(99, 144, 240, 0.2)",  // Water
-  "rgba(122, 199, 76, 0.2)",  // Grass
-  "rgba(247, 208, 44, 0.2)",  // Electric
-  "rgba(192, 48, 40, 0.2)"    // Fighting
+  "rgba(238, 129, 48, 0.2)", // Fire
+  "rgba(99, 144, 240, 0.2)", // Water
+  "rgba(122, 199, 76, 0.2)", // Grass
+  "rgba(247, 208, 44, 0.2)", // Electric
+  "rgba(192, 48, 40, 0.2)", // Fighting
 ];
 const BORDERCOLOR = [
   "rgba(168, 167, 122, 1)", // Normal
-  "rgba(238, 129, 48, 1)",  // Fire
-  "rgba(99, 144, 240, 1)",  // Water
-  "rgba(122, 199, 76, 1)",  // Grass
-  "rgba(247, 208, 44, 1)",  // Electric
-  "rgba(192, 48, 40, 1)"    // Fighting
+  "rgba(238, 129, 48, 1)", // Fire
+  "rgba(99, 144, 240, 1)", // Water
+  "rgba(122, 199, 76, 1)", // Grass
+  "rgba(247, 208, 44, 1)", // Electric
+  "rgba(192, 48, 40, 1)", // Fighting
 ];
-
-
 
 //Funktionen
 
@@ -45,11 +50,12 @@ async function init() {
   await getAllPokemonsOverview();
   await getCompletePokemonAPI();
   filterPokemon("");
-  ;
 }
 
-function waitMessage(){
-  document.getElementById('cardRenderArea').innerHTML = `<div>Pokemon Index wird geladen. Einen Moment bitte.</div>`
+function waitMessage() {
+  document.getElementById(
+    "cardRenderArea"
+  ).innerHTML = `<div>Pokemon Index wird geladen. Einen Moment bitte.</div>`;
 }
 
 async function getCompletePokemonAPI() {
@@ -76,22 +82,15 @@ async function saveLocal(id) {
   } else {
     let details = await getDetailsFromAPI(id);
     if (details) {
-      
       let essentialDetails = extractEssentialInformation(details);
 
       let essentialDetailsAsText = JSON.stringify(essentialDetails);
-      localStorage.setItem(`pokeID${id}`,essentialDetailsAsText);
+      localStorage.setItem(`pokeID${id}`, essentialDetailsAsText);
     }
   }
 }
 
-
-
-
-
 function extractEssentialInformation(element) {
-  //Extrahiere Bild, Typ1,Typ2,HP,Attack,Defense,SP-Attack,SP-Defense,Speed,Weight
-  console.log("Extrahiere essenzielle Informationen");
   let pokeName = element.species.name;
   let pokeImage = element.sprites.front_default;
   let pokeType1 = element.types[0].type.name;
@@ -104,11 +103,10 @@ function extractEssentialInformation(element) {
   let pokeSpeed = element.stats[5].base_stat;
   let pokeWeight = element.types.weight;
 
-  if(element.types[1]){if(element.types[1].type.name){pokeType2 = element.types[1].type.name;}}else{pokeType2=null;}
+  if (element.types[1]) { if(element.types[1].type.name) {pokeType2 = element.types[1].type.name;}
+  } else {pokeType2 = null;}
 
-  info =[pokeName, pokeImage, pokeType1, pokeType2,
-  //beginnt mit [4]
-  pokeHP, pokeAttack, pokeDefense, pokeSpAttack, pokeSpDefense, pokeSpeed, pokeWeight]
+  info = [pokeName,pokeImage,pokeType1,pokeType2,pokeHP, pokeAttack,pokeDefense, pokeSpAttack,pokeSpDefense,pokeSpeed, pokeWeight,];
   return info;
 }
 
@@ -119,7 +117,7 @@ async function getDetailsFromAPI(id) {
     let response = await fetch(url);
 
     if (response) {
-      responseAsJSON = await response.json(); 
+      responseAsJSON = await response.json();
     }
     if (responseAsJSON) {
       return responseAsJSON;
@@ -132,7 +130,7 @@ async function getDetailsFromAPI(id) {
 function isLocal(id) {
   pokeDetailsAsText = localStorage.getItem(`pokeID${id}`);
   if (pokeDetailsAsText) {
-    console.log("Im Speicher vorhanden")
+    console.log("Im Speicher vorhanden");
     return true;
   } else {
     return false;
@@ -155,10 +153,9 @@ async function filterPokemon(search) {
   if (search) {
     search = search.toLowerCase();
   }
-  
 
   await updatePokeResultOfSearch(search);
-  
+
   calcTotalPages();
   checkPageNumber();
   renderAll();
@@ -218,14 +215,12 @@ function calcTotalPages() {
 
 async function renderAll() {
   calcRenderBoundaries();
-  
+
   renderOverviewCards();
   renderPageProgress();
 }
 
-
-
-function pokeIDFromURL(url){
+function pokeIDFromURL(url) {
   // Teile die URL anhand des Schrägstrichs ("/") auf
   let segments = url.split("/");
 
@@ -239,52 +234,41 @@ function renderOverviewCards() {
   content.innerHTML = "";
 
   for (let index = lowerBound; index <= upperBound; index++) {
-    let pokeID = getPokeIDFromResultDetailsIndex(index)
+    let pokeID = getPokeIDFromResultDetailsIndex(index);
     content.innerHTML += overviewCardHTML(pokeID, index);
     renderOverviewCardsDetails(pokeID, index);
-
-
-
   }
-
-
 }
 
-
-
-function renderOverviewCardsDetails(pokeID, index){
+function renderOverviewCardsDetails(pokeID, index) {
   let pokeDetails = getPokeDetailsFromStorage(pokeID);
-   
-    let type = getAmountOfTypes(pokeDetails);
-    let type1= pokeDetails[2];
-    let type2 = pokeDetails[3];
-    renderTypeContainer(pokeID,type1, type2, type);
-    addOverviewCardBackground(pokeID, type1);
 
-    
-  
+  let type = getAmountOfTypes(pokeDetails);
+  let type1 = pokeDetails[2];
+  let type2 = pokeDetails[3];
+  renderTypeContainer(pokeID, type1, type2, type);
+  addOverviewCardBackground(pokeID, type1);
 }
 
-function getAmountOfTypes(pokeDetails){
-    if (pokeDetails[2]&&pokeDetails[3]){
-      return 2;
-    } else{ return 1;}
-
+function getAmountOfTypes(pokeDetails) {
+  if (pokeDetails[2] && pokeDetails[3]) {
+    return 2;
+  } else {
+    return 1;
+  }
 }
 
-
-function renderTypeContainer(pokeID,type1, type2, type){
-    let content = document.getElementById(`overviewCardTypeContainer${pokeID}`);
-    content.innerHTML = '';
-    if (type==2){
-      content.innerHTML += TypeContainerHTML2(type1, type2);
-    } else {
-      content.innerHTML += TypeContainerHTML1(type1);
-    }
+function renderTypeContainer(pokeID, type1, type2, type) {
+  let content = document.getElementById(`overviewCardTypeContainer${pokeID}`);
+  content.innerHTML = "";
+  if (type == 2) {
+    content.innerHTML += TypeContainerHTML2(type1, type2);
+  } else {
+    content.innerHTML += TypeContainerHTML1(type1);
+  }
 }
 
-
-function TypeContainerHTML1(type1){
+function TypeContainerHTML1(type1) {
   return `
   <div class="overviewCardType">
       ${type1}
@@ -292,30 +276,27 @@ function TypeContainerHTML1(type1){
   `;
 }
 
-
-function TypeContainerHTML2(type1, type2){
+function TypeContainerHTML2(type1, type2) {
   return `
   <div class="overviewCardType"> ${type1}    </div>
   <div class="overviewCardType"> ${type2}</div>
   `;
 }
 
-
-function addOverviewCardBackground(pokeID, type1){
-  element= document.getElementById(`overviewCard${pokeID}`);
+function addOverviewCardBackground(pokeID, type1) {
+  element = document.getElementById(`overviewCard${pokeID}`);
   element.classList.add(type1);
 }
 
+function getPokeIDFromResultDetailsIndex(index) {
+  try {
+    url = pokeResultOfSearch[0].results[index].url;
+  } catch {}
 
-
-
-function getPokeIDFromResultDetailsIndex(index){
-        try{url = pokeResultOfSearch[0].results[index].url;}
-        catch{}
-
-        if(url){pokeID = pokeIDFromURL(url);}
-        return pokeID;
-        
+  if (url) {
+    pokeID = pokeIDFromURL(url);
+  }
+  return pokeID;
 }
 
 function calcRenderBoundaries() {
@@ -380,11 +361,9 @@ function openModal(index) {
 
 function scrollToTop() {
   window.scrollTo({
-      top: 0,
-       
+    top: 0,
   });
 }
-
 
 function closeModal() {
   modal = document.getElementById("modal");
@@ -402,93 +381,84 @@ function renderModal(index) {
   }
 }
 
-function renderModalCardDetails(index){
+function renderModalCardDetails(index) {
   let pokeId = getPokeIDFromResultDetailsIndex(index);
-  let pokeDetails = getPokeDetailsFromStorage(pokeId);      
+  let pokeDetails = getPokeDetailsFromStorage(pokeId);
   let type = getAmountOfTypes(pokeDetails);
-  let type1= pokeDetails[2];
+  let type1 = pokeDetails[2];
   let type2 = pokeDetails[3];
-  
-          renderModalTypeContainer(pokeId,type1, type2, type);
-          addModalCardBackground(pokeID, type1);
-          addModalCardBorder(pokeID,type2);
-          renderModalCardStats(pokeDetails, pokeID);
-       
+
+  renderModalTypeContainer(pokeId, type1, type2, type);
+  addModalCardBackground(pokeID, type1);
+  addModalCardBorder(pokeID, type2);
+  renderModalCardStats(pokeDetails, pokeID);
 }
 
-function renderModalCardStats(pokeDetails, pokeID){
-  
-  data = [pokeDetails[4],
-  pokeDetails[5],
-  pokeDetails[6],
-  pokeDetails[7],
-  pokeDetails[8],
-  pokeDetails[9],
-  
+function renderModalCardStats(pokeDetails, pokeID) {
+  data = [
+    pokeDetails[4],
+    pokeDetails[5],
+    pokeDetails[6],
+    pokeDetails[7],
+    pokeDetails[8],
+    pokeDetails[9],
+  ];
 
-];
-  
-  
   const ctx = document.getElementById(`modalStatsContentChart${pokeID}`);
   Chart.defaults.font.size = 10;
   new Chart(ctx, {
     type: TYPE,
     data: {
       labels: LABELS,
-      datasets: [{
-        label: LABEL,
-        data: data,
-        borderWidth: 1,
-        backgroundColor: BACKGROUNDCOLOR,
-        borderColor: BORDERCOLOR
-      }]
+      datasets: [
+        {
+          label: LABEL,
+          data: data,
+          borderWidth: 1,
+          backgroundColor: BACKGROUNDCOLOR,
+          borderColor: BORDERCOLOR,
+        },
+      ],
     },
     options: {
-      indexAxis: 'y',
+      indexAxis: "y",
       scales: {
         y: {
           beginAtZero: true,
-          
-          
         },
-        x:{
-          max: 150
-        }
+        x: {
+          max: 150,
+        },
       },
-      
-      
-    }
+    },
   });
 }
 
-function addModalCardBorder(pokeID, type2){
-    element=document.getElementById(`modalCard${pokeID}`);
-    if(type2==null){element.classList.add('noBorder')};
-    element.classList.add(`${type2}-border`);
-  
+function addModalCardBorder(pokeID, type2) {
+  element = document.getElementById(`modalCard${pokeID}`);
+  if (type2 == null) {
+    element.classList.add("noBorder");
+  }
+  element.classList.add(`${type2}-border`);
 }
 
+function addModalCardBackground(pokeID, type1) {
+  element = document.getElementById(`modalCard${pokeID}`);
+  element.classList.add(type1);
+}
 
- function addModalCardBackground(pokeID, type1){
-            element= document.getElementById(`modalCard${pokeID}`);
-            element.classList.add(type1);
-          }
-
-
-function renderModalTypeContainer(pokeID,type1, type2, type){
+function renderModalTypeContainer(pokeID, type1, type2, type) {
   let content = document.getElementById(`modalTypeRow${pokeID}`);
-  content.innerHTML = '';
-  if (type==2){
+  content.innerHTML = "";
+  if (type == 2) {
     content.innerHTML += TypeContainerHTML2(type1, type2);
   } else {
     content.innerHTML += TypeContainerHTML1(type1);
   }
 }
 
-
-
 function renderModalCard(index) {
-  let pokemonId = getPokeIDFromResultDetailsIndex(index); 
+  let pokemonId = getPokeIDFromResultDetailsIndex(index);
   modalCard = document.getElementById("modalMiddle");
   modalCard.innerHTML = "";
   modalCard.innerHTML += ModalCardHTML(index);
@@ -512,13 +482,15 @@ function clickRight(index) {
   }
 }
 
-function getPokeDetailsFromStorage(pokeID){
+function getPokeDetailsFromStorage(pokeID) {
   let pokeDetailsAsText = localStorage.getItem(`pokeID${pokeID}`);
   let pokeDetails;
-  if (pokeDetailsAsText){
+  if (pokeDetailsAsText) {
     pokeDetails = JSON.parse(pokeDetailsAsText);
     return pokeDetails;
-  } else {console.log("Error in getPokeDetailsFromStorage")}
+  } else {
+    console.log("Error in getPokeDetailsFromStorage");
+  }
 }
 
 //HTML Templates
@@ -526,8 +498,8 @@ function getPokeDetailsFromStorage(pokeID){
 function ModalCardHTML(index) {
   let pokeId = getPokeIDFromResultDetailsIndex(index);
   let pokeDetails = getPokeDetailsFromStorage(pokeId);
-  if(pokeDetails[1]==null){
-    pokeDetails[1]='./img/question.png';
+  if (pokeDetails[1] == null) {
+    pokeDetails[1] = "./img/question.png";
   }
 
   return `
@@ -566,10 +538,9 @@ function modalConstructionHTML(index) {
 function overviewCardHTML(pokeID, index) {
   let pokeDetails = getPokeDetailsFromStorage(pokeID);
 
-  if(pokeDetails[1]==null){
-    pokeDetails[1]='./img/question.png';
+  if (pokeDetails[1] == null) {
+    pokeDetails[1] = "./img/question.png";
   }
-  
 
   if (pokeResultOfSearch[0].results[index]) {
     return `

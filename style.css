@@ -43,14 +43,16 @@ main{
 
 #headerContent{
     
-    height: 150px;
+    height: fit-content;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 20px;
 }
 
 #searchField{
     display: flex;
+    padding-bottom: 10px;
 }
 
 #pokeSearch{
@@ -66,7 +68,6 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
 
 #pokeSearchResetButton:hover{
     cursor: pointer;
-    
     
 }
 
@@ -94,6 +95,7 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
     padding-right: 15px;
     height:100%;
     flex-grow: 5;
+    justify-content: center;
 }
 
 .overViewCard{
@@ -334,6 +336,11 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
     height: 200px;
 }
 
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 /* Hintergund CSS Klassen */
 
 .normal {
@@ -499,5 +506,8 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
     z-index: 500;
 }
 
+#headImage{
+    width: 250px;
+}
 
 }

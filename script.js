@@ -18,7 +18,7 @@ async function getCompletePokemonAPI() {
     try {
       url = pokeIndex.results[i].url;
     } catch {
-      "url konnte nicht geladen werden an PokeIndex " + i;
+      console.log("url konnte nicht geladen werden an PokeIndex " + i);
     }
 
     let segments = url.split("/");
@@ -180,22 +180,14 @@ function calcTotalPages() {
   totalPages = Math.ceil((pokeResultOfSearch[0].results.length - 1) / 20);
 }
 
-
-
 function pokeIDFromURL(url) {
-  // Teile die URL anhand des Schrägstrichs ("/") auf
   let segments = url.split("/");
-
-  // Die ID des Pokémon befindet sich im vorletzten Segment
   let pokemonId = segments[segments.length - 2];
   return pokemonId;
 }
 
-
-
 function renderOverviewCardsDetails(pokeID, index) {
   let pokeDetails = getPokeDetailsFromStorage(pokeID);
-
   let type = getAmountOfTypes(pokeDetails);
   let type1 = pokeDetails[2];
   let type2 = pokeDetails[3];
@@ -210,8 +202,6 @@ function getAmountOfTypes(pokeDetails) {
     return 1;
   }
 }
-
-
 
 function addOverviewCardBackground(pokeID, type1) {
   element = document.getElementById(`overviewCard${pokeID}`);
@@ -251,8 +241,6 @@ function getUpperBound() {
     return bound;
   }
 }
-
-
 
 function checkPageNumber() {
   if (totalPages == 0) {
@@ -296,14 +284,6 @@ function closeModal() {
   document.body.style.overflow = "auto";
 }
 
-
-
-
-
-
-
-  
-
 function addModalCardBorder(pokeID, type2) {
   element = document.getElementById(`modalCard${pokeID}`);
   if (type2 == null) {
@@ -327,7 +307,7 @@ function renderModalTypeContainer(pokeID, type1, type2, type) {
   }
 }
 
-function getStatsData(pokeDetails){
+function getStatsData(pokeDetails) {
   let data = [
     pokeDetails[4],
     pokeDetails[5],

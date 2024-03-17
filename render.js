@@ -56,12 +56,8 @@ function renderModalCardDetails(index) {
   renderModalCardStats(pokeDetails, pokeID);
 }
 
-
-
-
 function renderModalCardStats(pokeDetails, pokeID) {
-  
- let data = getStatsData(pokeDetails);
+  let data = getStatsData(pokeDetails);
 
   const ctx = document.getElementById(`modalStatsContentChart${pokeID}`);
   Chart.defaults.font.size = 10;

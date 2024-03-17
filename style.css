@@ -191,6 +191,10 @@ box-shadow: 1px 1px rgba(0,0,0,0.2);
     
 }
 
+.modalTypeRow .overviewCardType{
+    z-index: 800;
+}
+
 #AreaPageButtons{
     display: flex;
     justify-content: space-between;

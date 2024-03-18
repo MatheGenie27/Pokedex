@@ -12,16 +12,20 @@ async function renderOverviewCards() {
 
   for (let index = lowerBound; index <= upperBound; index++) {
     let pokeID = getPokeIDFromResultDetailsIndex(index);
+    
+    if (index < pokeResultOfSearch[0].results.length) {
+      console.log("if Bedingung");
 
-    if (isLocal(pokeID)) {
-      content.innerHTML += overviewCardHTML(pokeID, index);
-      renderOverviewCardsDetails(pokeID, index);
-    } else {
-      //PokeDetails liegen noch nicht lokal vor
+      if (isLocal(pokeID)) {
+        content.innerHTML += overviewCardHTML(pokeID, index);
+        renderOverviewCardsDetails(pokeID, index);
+      } else {
+        //PokeDetails liegen noch nicht lokal vor
 
-      await saveLocal(pokeID);
-      content.innerHTML += overviewCardHTML(pokeID, index);
-      renderOverviewCardsDetails(pokeID, index);
+        await saveLocal(pokeID);
+        content.innerHTML += overviewCardHTML(pokeID, index);
+        renderOverviewCardsDetails(pokeID, index);
+      }
     }
   }
 }
@@ -53,7 +57,6 @@ async function renderModal(index) {
     if (isLocal(pokeID)) {
       renderModalCard(index);
       renderModalCardDetails(index);
-
     } else {
       //PokeDetails liegen noch nicht lokal vor
 

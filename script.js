@@ -134,7 +134,6 @@ async function filterPokemon(search) {
 }
 
 function checkFilter() {
-  console.log("checkFilter");
   input = getSearchInput();
 
   if (input.length > 2) {
@@ -362,7 +361,7 @@ function hideModalButton(index) {
     document.getElementById("modalLeftImg").classList.remove("noDisplay");
   }
 
-  if (index == pokeResultOfSearch[0].results.length) {
+  if (index == pokeResultOfSearch[0].results.length-1) {
     document.getElementById("modalRight").classList.add("noDisplay");
     document.getElementById("modalRightImg").classList.add("noDisplay");
   } else {
